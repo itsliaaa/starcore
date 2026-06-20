@@ -1,7 +1,7 @@
 {
    "name": "@itsliaaa/starcore",
    "version": "0.0.1-alpha.0",
-   "description": "A simple Baileys wrapper for WhatsApp automation",
+   "description": "A lightweight yet powerful Baileys wrapper designed to simplify development while extending support for additional message types and WhatsApp features.",
    "main": "./lib/index.js",
    "types": "./lib/index.d.ts",
    "type": "module",

@@ -25,9 +25,9 @@
    </a>
 </p>
 
-> **Minimum Baileys Version**: `7.0.0-rc10` or higher.
-
 ☕ For donation: [Saweria](https://saweria.co/itsliaaa)
+
+> ⚠️ **Minimum Baileys Version**: `7.0.0-rc10` or higher.
 
 ### ✨ Highlights
 
@@ -48,7 +48,7 @@ import { Client } from '@itsliaaa/starcore'
 const client = new Client({
    auth: {
       name: 'session',
-      pairingCode: true, // Turn "false" to use QR Code
+      pairingCode: true, // --- Turn "false" to use QR Code
       phoneNumber: '6281111111111'
    }
 })
@@ -78,19 +78,21 @@ const client = new Client({
    readMessage: true,
    updatePresence: true,
    updateProtoOnStartup: true,
-   autoFollowNewsletter: '1111122222@newsletter', // String | String[] | false
+   autoFollowNewsletter: '1111122222@newsletter', // --- String | String[] | false
    newsletterAnnotation: {
       newsletterJid: '',
       newsletterName: ''
-   } // IForwardedNewsletterMessageInfo | false
+   }, // --- IForwardedNewsletterMessageInfo | false
+   temporaryFileInterval: 45 * 60 * 1000, // --- Default: 45 minutes
+   gcInterval: 1.5 * 60 * 60 * 1000 // --- Default: 1.5 hours
 }, {
-   // Baileys socket configuration
+   // --- Baileys socket configuration
    shouldIgnoreJid: (jid) =>
       typeof jid === 'string' && jid.includes('newsletter')
 })
 ```
 
-### 📨 How to Send Message
+### 📨 Sending Messages
 
 #### 🔠 Text
 
@@ -147,9 +149,7 @@ sock.sendMedia(jid, bufferOrUrl, message, {
 #### ⚪ PTV
 
 ```javascript
-sock.sendPtv(jid, bufferOrUrl, message, {
-   gif: false, // --- Optional
-})
+sock.sendPtv(jid, bufferOrUrl, message)
 ```
 
 #### 📃 Sticker
@@ -411,34 +411,40 @@ sock.sendPoll(jid, [
    name: '🔥 Is it good?',
    selectableCount: 1,
    toAnnouncementGroup: false,
-   endDate: new Date(Date.now() + 28800000), // --- Optional
+   endDate: new Date(Date.now() + 28_800_000), // --- Optional
    hideVoter: false, // --- Optional
    canAddOption: false // --- Optional
 })
 
 // --- Quiz (only for newsletter)
-sock.sendPoll('1211111111111@newsletter', [
+sock.sendQuiz('1211111111111@newsletter', [
    '✨ Yes', '💀 No'
 ], message, {
    name: '🔥 Quiz!',
-   correctAnswer: 'Yes',
-   pollType: 1
+   correctAnswer: '✨ Yes'
 })
 ```
 
 #### 📈 Poll Result
 
 ```javascript
-sock.sendPollResult(jid, [{
+// --- Regular poll result message
+sock.sendPollResult(jid, '📈 Poll Result', [{
    name: '🔥 Fire',
    voteCount: 133
 }, {
    name: '❤️ Love it',
    voteCount: 18
-}], message, {
-   name: '📈 Poll Result',
-   pollType: 0 // --- Or 1 for quiz result
-})
+}], message)
+
+// --- Quiz result message
+sock.sendQuizResult(jid, '🏆 Quiz Result', [{
+   name: '🔥 Fire',
+   voteCount: 133
+}, {
+   name: '❤️ Love it',
+   voteCount: 18
+}], message)
 ```
 
 #### ✨ Rich
@@ -580,7 +586,7 @@ sock.sendRich(jid, [{
       faviconUrl: 'https://path-to-tiny-image.com/' // --- Optional
    }]
 }], message, {
-   shouldNotify: false, // --- Optional
+   notify: false, // --- Optional
    disclaimerText: 'Example Usage of sendRich()'
 })
 ```
@@ -602,6 +608,12 @@ sock.sendCopyMessage(jid, message, {
 ```javascript
 sock.sendStatus([jid], {
    text: '👋🏻 Hello!'
+}, {
+   mention: false, // --- Optional
+   closeFriends: {
+      name: '@itsliaaa/starcore',
+      emoji: '✨'
+   } // --- Optional
 })
 ```
 
@@ -613,5 +625,80 @@ sock.sendStatus([jid], {
 ```javascript
 sock.sendGroupStatus(jid, {
    text: '👋🏻 Hello!'
+}, {
+   closeFriends: {
+      name: '@itsliaaa/starcore',
+      emoji: '✨'
+   } // --- Optional
 })
 ```
+
+### 🌐 Request
+
+> [!NOTE]
+> This feature relies on Node.js's built-in `fetch()` API along with several other native Node.js capabilities. Therefore, it's highly recommended to use Node.js version 20 or newer (>= 20) to ensure everything works properly.
+
+```javascript
+import { Request } from '@itsliaaa/starcore'
+
+// --- Quick request
+const result = await Request.request('https://path-to-web-api.com/', {
+   timeout: 3000 // --- Default: 90_000
+})
+
+// --- Create a fast path
+const someApi = Request.createApiRequest('https://path-to-web-api.com/')
+
+const getResult = await someApi('path/to/get', {
+   q: 'Hello'
+}, {
+   // --- Optional
+   timeout: 3000,
+   method: 'GET',
+   headers: {}
+})
+
+const postResult = await someApi('path/to/post', null, {
+   method: 'POST',
+   headers: {
+      'Content-Type': 'application/json'
+   },
+   body: JSON.stringify({
+      q: 'Hello'
+   })
+})
+```
+
+### 📡 Events Reference
+
+```javascript
+client.on('message', console.log)
+client.on('message.edit', console.log)
+client.on('message.delete', console.log)
+client.on('group.add', console.log)
+client.on('group.promote', console.log)
+client.on('group.demote', console.log)
+client.on('group.remove', console.log)
+client.on('call', console.log)
+client.on('presence', console.log)
+```
+
+### 🚀 Try the Bot
+
+A fast, lightweight, and modular WhatsApp bot built with [@itsliaaa/starcore](https://www.npmjs.com/package/@itsliaaa/starcore).
+Perfect for managing groups, moderating chats, and adding fun with quiz games and handy tools.
+
+👉🏻 [@itsliaaa/starseed](https://github.com/itsliaaa/starseed#readme)
+
+### 📣 Credits
+
+This project uses Protocol Buffer definitions maintained by [WPP Connect](https://github.com/wppconnect-team) via [`wa-proto`](https://github.com/wppconnect-team/wa-proto) for the `updateProtoOnStartup` feature.
+
+Special thanks to the original Baileys maintainers and contributors:
+- [purpshell](https://github.com/purpshell)
+- [jlucaso1](https://github.com/jlucaso1)
+- [adiwajshing](https://github.com/adiwajshing)
+
+<!-- Please do not replace my name with yours. It's disrespectful. -->
+
+This project is maintained by [Lia Wynn](https://github.com/itsliaaa)

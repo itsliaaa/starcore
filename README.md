@@ -44,7 +44,7 @@ Built with a focus on simplicity, and better compatibility with modern WhatsApp 
 
 For now, the alpha release ships with a built-in JSON adapter for Database, Store, and Auth State.
 
-More adapters like SQLite, Redis, MongoDB, MySQL, and PostgreSQL are on the way and will join the party in future releases. ✨
+More adapters will join the party in future releases. ✨
 
 Until then, JSON remains the recommended choice for development, testing, and lightweight deployments.
 
@@ -62,7 +62,7 @@ const client = new Client({
 })
 
 client.on('message', (ctx) => {
-   if (ctx.body) {
+   if (ctx.m.body === 'hello') {
       ctx.m.reply('👋 Hello there!')
    }
 })
@@ -73,7 +73,6 @@ client.on('message', (ctx) => {
 
 ```javascript
 const client = new Client({ ... })
-
 const sock = client.sock
 ```
 
@@ -107,6 +106,20 @@ const client = new Client({
    shouldIgnoreJid: (jid) =>
       typeof jid === 'string' && jid.includes('newsletter')
 })
+```
+
+### 📡 Events Reference
+
+```javascript
+client.on('message', console.log)
+client.on('message.edit', console.log)
+client.on('message.delete', console.log)
+client.on('group.add', console.log)
+client.on('group.promote', console.log)
+client.on('group.demote', console.log)
+client.on('group.remove', console.log)
+client.on('call', console.log)
+client.on('presence', console.log)
 ```
 
 ### 📨 Sending Messages
@@ -173,6 +186,8 @@ sock.sendPtv(jid, bufferOrUrl, message)
 
 ```javascript
 sock.sendSticker(jid, bufferOrUrl, message, {
+   packName: '@itsliaaa/starcore',
+   packPublisher: 'by Lia Wynn 🌱',
    isAiSticker: true, // --- Optional
    isAvatar: false, // --- Optional
    premium: 1 // --- Optional
@@ -182,18 +197,8 @@ sock.sendSticker(jid, bufferOrUrl, message, {
 #### 📦 Sticker Pack
 
 ```javascript
-sock.sendStickerPack = async (jid, [{
-   data: {
-      url: './path/to/sticker-1.webp'
-   }
-}, {
-   data: {
-      url: './path/to/sticker-2.webp'
-   }
-}], m, {
-   cover: {
-      url: './path/to/cover.webp'
-   },
+sock.sendStickerPack = async (jid, [bufferOrUrl, bufferOrUrl], m, {
+   cover: bufferOrUrl,
    name: '📦 Sticker Pack',
    publisher: 'GitHub: itsliaaa',
    description: '⚡ itsliaaa/starcore'
@@ -206,7 +211,15 @@ sock.sendStickerPack = async (jid, [{
 sock.sendContact(jid, [{
    name: 'Lia Wynn',
    org: '🛎️ Waitress',
-   email: 'your-email@gmail.com',
+   email: 'my-email@gmail.com',
+   website: 'https://www.npmjs.com/package/@itsliaaa/starcore#readme',
+   location: 'Jakarta',
+   other: '❤️ Simplified WhatsApp API',
+   number: '621111111111'
+}, {
+   name: '❤️ My Big Brother',
+   org: '👥 Siblings',
+   email: 'his-email@gmail.com',
    website: 'https://www.npmjs.com/package/@itsliaaa/starcore#readme',
    location: 'Jakarta',
    other: '❤️ Simplified WhatsApp API',
@@ -218,20 +231,16 @@ sock.sendContact(jid, [{
 
 ```javascript
 sock.sendAlbum(jid, [{
-   image: {
-      url: './path/to/image.jpg'
-   },
+   media: './path/to/image.jpg',
    caption: '1st image'
 }, {
-   video: {
-      url: './path/to/video.mp4'
-   },
+   media: './path/to/video.mp4',
    caption: '1st video'
 }, {
-   image: imageBuffer,
+   media: imageBuffer,
    caption: '2nd image'
 }, {
-   video: videoBuffer,
+   media: videoBuffer,
    caption: '2nd video'
 }], message)
 ```
@@ -487,12 +496,12 @@ sock.sendRich(jid, [{
 }, {
    video: 'https://path-to-video.com/',
    thumbnailUrl: 'https://path-to-tiny-image.com/',
-   mimetype: 'video/mp4',
+   mime: 'video/mp4',
    fileLength: 13_603,
    duration: 60
 }, {
    image: 'https://path-to-image.com/',
-   mimetype: 'image/jpeg'
+   mime: 'image/jpeg'
 }, {
    reels: [{
       reelUrl: 'https://path-to-web.com/',
@@ -558,7 +567,7 @@ sock.sendRich(jid, [{
 }, {
    latex: 'https://quicklatex.com/cache3/82/ql_0676ade0cd04eda37aeb3d0bcd427682_l3.png',
    expression: 'x^2 + 2x + 1',
-   mimetype: 'image/png',
+   mime: 'image/png',
    width: 603,
    height: 111,
    fontHeight: 83.5,
@@ -600,7 +609,8 @@ sock.sendRich(jid, [{
    searchResults: [{
       displayName: 'Simple Baileys Wrapper',
       sourceUrl: 'https://path-to-web.com/',
-      faviconUrl: 'https://path-to-tiny-image.com/' // --- Optional
+      faviconUrl: 'https://path-to-tiny-image.com/',
+      mime: 'image/jpeg' // --- Optional, the mime type of favicon
    }]
 }], message, {
    notify: false, // --- Optional
@@ -653,7 +663,7 @@ sock.sendGroupStatus(jid, {
 ### 🗳️ Database
 
 > [!IMPORTANT]
-> Currently, only the JSON adapter is available. Additional adapters such as SQLite, Redis, MongoDB, MySQL, and PostgreSQL are planned for future releases.
+> Currently, only the JSON adapter is available. Additional adapters are planned for future releases.
 
 ```javascript
 import { Database } from '@itsliaaa/starcore'
@@ -704,20 +714,6 @@ const postResult = await someApi('path/to/post', null, {
 })
 ```
 
-### 📡 Events Reference
-
-```javascript
-client.on('message', console.log)
-client.on('message.edit', console.log)
-client.on('message.delete', console.log)
-client.on('group.add', console.log)
-client.on('group.promote', console.log)
-client.on('group.demote', console.log)
-client.on('group.remove', console.log)
-client.on('call', console.log)
-client.on('presence', console.log)
-```
-
 ### 🚀 Try the Bot
 
 A fast, lightweight, and modular WhatsApp bot built with [@itsliaaa/starcore](https://www.npmjs.com/package/@itsliaaa/starcore).
@@ -727,7 +723,7 @@ Perfect for managing groups, moderating chats, and adding fun with quiz games an
 
 ### 📣 Credits
 
-This project uses Protocol Buffer definitions maintained by [WPP Connect](https://github.com/wppconnect-team) via [`wa-proto`](https://github.com/wppconnect-team/wa-proto) for the `updateProtoOnStartup` feature.
+this project uses Protocol Buffer definitions maintained by [WPP Connect](https://github.com/wppconnect-team) via [`wa-proto`](https://github.com/wppconnect-team/wa-proto) for the `updateProtoOnStartup` feature.
 
 Special thanks to the original Baileys maintainers and contributors:
 - [purpshell](https://github.com/purpshell)
@@ -736,4 +732,4 @@ Special thanks to the original Baileys maintainers and contributors:
 
 <!-- Please do not replace my name with yours. It's disrespectful. -->
 
-This project is maintained by [Lia Wynn](https://github.com/itsliaaa)
+This project is created and maintained by [Lia Wynn](https://github.com/itsliaaa)

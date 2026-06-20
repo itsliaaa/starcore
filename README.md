@@ -40,6 +40,14 @@
 
 Built with a focus on simplicity, and better compatibility with modern WhatsApp features.
 
+### 🌱 Future Plans
+
+For now, the alpha release ships with a built-in JSON adapter for Database, Store, and Auth State.
+
+More adapters like SQLite, Redis, MongoDB, MySQL, and PostgreSQL are on the way and will join the party in future releases. ✨
+
+Until then, JSON remains the recommended choice for development, testing, and lightweight deployments.
+
 ### 📄 Basic Usage
 
 ```javascript
@@ -58,6 +66,15 @@ client.on('message', (ctx) => {
       ctx.m.reply('👋 Hello there!')
    }
 })
+```
+
+> [!TIP]
+> The underlying Baileys socket instance is available through `client.sock`.
+
+```javascript
+const client = new Client({ ... })
+
+const sock = client.sock
 ```
 
 ### ⚙️ Advanced Usage
@@ -633,6 +650,24 @@ sock.sendGroupStatus(jid, {
 })
 ```
 
+### 🗳️ Database
+
+> [!IMPORTANT]
+> Currently, only the JSON adapter is available. Additional adapters such as SQLite, Redis, MongoDB, MySQL, and PostgreSQL are planned for future releases.
+
+```javascript
+import { Database } from '@itsliaaa/starcore'
+
+const jsonDb = Database.saveToLocal('database.json')
+await jsonDb.read('database.json') // --- Read database from file, will return empty object if not exists
+await jsonDb.write({
+   users: {},
+   groups: {},
+   contacts: {},
+   settings: {}
+}) // --- Save data to file
+```
+
 ### 🌐 Request
 
 > [!NOTE]
@@ -643,7 +678,7 @@ import { Request } from '@itsliaaa/starcore'
 
 // --- Quick request
 const result = await Request.request('https://path-to-web-api.com/', {
-   timeout: 3000 // --- Default: 90_000
+   timeout: 3000 // --- Default: 1.5 minutes
 })
 
 // --- Create a fast path

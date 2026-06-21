@@ -1,4 +1,4 @@
-# ⚡ @itsliaaa/starcore
+# ✨ @itsliaaa/starcore
 
 [![Logo](https://files.catbox.moe/tfi9tr.png)](https://www.npmjs.com/package/@itsliaaa/starcore)
 
@@ -29,7 +29,7 @@
 
 > ⚠️ **Minimum Baileys Version**: `7.0.0-rc10` or higher.
 
-### ✨ Highlights
+### 📌 Highlights
 
 - Improved `createParticipantNodes()` by introducing yielding, preventing potential freezes during participant node generation.
 - Enhanced `relayMessage()` with newsletter support and compatibility for sending several important binary payloads.
@@ -56,7 +56,7 @@ import { Client } from '@itsliaaa/starcore'
 const client = new Client({
    auth: {
       name: 'session',
-      pairingCode: true, // --- Turn "false" to use QR Code
+      pairingCode: true, // Turn "false" to use QR Code
       phoneNumber: '6281111111111'
    }
 })
@@ -94,17 +94,17 @@ const client = new Client({
    readMessage: true,
    updatePresence: true,
    updateProtoOnStartup: true,
-   autoFollowNewsletter: '1111122222@newsletter', // --- String | String[] | false
+   autoFollowNewsletter: '1111122222@newsletter', // String | String[] | false
    newsletterAnnotation: {
       newsletterJid: '',
       newsletterName: ''
-   }, // --- IForwardedNewsletterMessageInfo | false
-   temporaryFileInterval: 45 * 60 * 1000, // --- Default: 45 minutes
-   gcInterval: 1.5 * 60 * 60 * 1000 // --- Default: 1.5 hours
+   }, // IForwardedNewsletterMessageInfo | false
+   temporaryFileInterval: 45 * 60 * 1000, // Default: 45 minutes
+   gcInterval: 1.5 * 60 * 60 * 1000 // Default: 1.5 hours
 }, {
-   // --- Baileys socket configuration
+   // Baileys socket configuration
    shouldIgnoreJid: (jid) =>
-      typeof jid === 'string' && jid.includes('newsletter')
+      typeof jid === 'string' && jid.endsWith('bot')
 })
 ```
 
@@ -128,8 +128,8 @@ client.on('presence', console.log)
 
 ```javascript
 sock.sendText(jid, '👋🏻 Hello', message, {
-   mentionAll: false, // --- Optional
-   mentions: ['621111111111@lid', '621111111111@s.whatsapp.net'], // --- Optional
+   mentionAll: false, // Optional
+   mentions: ['621111111111@lid', '621111111111@s.whatsapp.net'], // Optional
 })
 ```
 
@@ -140,8 +140,8 @@ sock.sendAdText(jid, '👆🏻 Check it out!', message, {
    thumbnailUrl: 'https://www.npmjs.com/package/@itsliaaa/starcore#readme',
    title: '🌱 @itsliaaa/starcore',
    description: 'Underrated Baileys Wrapper',
-   previewType: 0, // --- Use 1 for video playback in the link preview
-   thumbnail: fs.readFileSync('./path/to/image.jpg') // --- Buffer or url
+   previewType: 0, // Or use 1 for video playback in the link preview
+   thumbnail: fs.readFileSync('./path/to/image.jpg') // Buffer or url
 })
 
 // --- Send a text message with a large link preview and favicon
@@ -151,8 +151,8 @@ sock.sendAdText(jid, '👆🏻 Check it out!', message, {
    description: 'Underrated Baileys Wrapper',
    previewType: 0,
    thumbnail: fs.readFileSync('./path/to/image.jpg'),
-   favicon: fs.readFileSync('./path/to/tiny-image.png'), // --- Optional, Buffer or url
-   largeThumbnail: true, // --- Must true if want to send large preview
+   favicon: fs.readFileSync('./path/to/tiny-image.png'), // Optional, Buffer or url
+   largeThumbnail: true, // Must true if want to send large preview
    width: 720,
    height: 480
 })
@@ -168,11 +168,11 @@ sock.sendReact(jid, '✨', message.key)
 
 ```javascript
 sock.sendMedia(jid, bufferOrUrl, message, {
-   mime: 'image/jpeg', // --- Optional, will automatically detect the mime
-   document: false, // --- Optional, force send as document
-   ptv: false, // --- Optional, force send as PTV
-   gif: false, // --- Optional
-   ptt: false // --- Optional
+   mime: 'image/jpeg', // Optional, will automatically detect the mime
+   document: false, // Optional, force send as document
+   ptv: false, // Optional, force send as PTV
+   gif: false, // Optional
+   ptt: false // Optional
 })
 ```
 
@@ -188,9 +188,9 @@ sock.sendPtv(jid, bufferOrUrl, message)
 sock.sendSticker(jid, bufferOrUrl, message, {
    packName: '@itsliaaa/starcore',
    packPublisher: 'by Lia Wynn 🌱',
-   isAiSticker: true, // --- Optional
-   isAvatar: false, // --- Optional
-   premium: 1 // --- Optional
+   isAiSticker: true, // Optional
+   isAvatar: false, // Optional
+   premium: 1 // Optional
 })
 ```
 
@@ -231,17 +231,11 @@ sock.sendContact(jid, [{
 
 ```javascript
 sock.sendAlbum(jid, [{
-   media: './path/to/image.jpg',
-   caption: '1st image'
+   media: bufferOrUrl,
+   caption: 'Image'
 }, {
-   media: './path/to/video.mp4',
-   caption: '1st video'
-}, {
-   media: imageBuffer,
-   caption: '2nd image'
-}, {
-   media: videoBuffer,
-   caption: '2nd video'
+   media: bufferOrUrl,
+   caption: 'Video'
 }], message)
 ```
 
@@ -251,7 +245,7 @@ sock.sendAlbum(jid, [{
 sock.sendInteractive(jid, [{
    text: '👋🏻 Greeting',
    id: '#Greeting',
-   icon: 'review' // --- Optional
+   icon: 'review' // Optional
 }, {
    text: '📞 Call',
    call: '621111111111'
@@ -261,7 +255,7 @@ sock.sendInteractive(jid, [{
 }, {
    text: '🌐 Source',
    url: 'https://www.npmjs.com/package/@itsliaaa/starcore',
-   useWebview: true // --- Optional
+   useWebview: true // Optional
 }, {
    text: '📋 Select',
    sections: [{
@@ -282,20 +276,18 @@ sock.sendInteractive(jid, [{
          id: '#SecretIngredient'
       }]
    }],
-   icon: 'default' // --- Optional
+   icon: 'default' // Optional
 }], message, {
-   image: {
-      url: './path/to/image.jpg'
-   },
+   media: bufferOrUrl,
    caption: '🗄️ Interactive Message',
    footer: '@itsliaaa/starcore',
-   optionText: '👉🏻 Select Options', // --- Optional, wrap all native flow into a single list
-   optionTitle: '📄 Select Options', // --- Optional
-   offerText: '🏷️ Newest Coupon!', // --- Optional, add an offer into message
-   offerCode: '@itsliaaa/starcore', // --- Optional
-   offerUrl: 'https://www.npmjs.com/package/@itsliaaa/starcore', // --- Optional
-   offerExpiration: Date.now() + 3_600_000, // --- Optional
-   asTemplate: false // --- Optional, wrap the interactive message as template
+   optionText: '👉🏻 Select Options', // Optional, wrap all native flow into a single list
+   optionTitle: '📄 Select Options', // Optional
+   offerText: '🏷️ Newest Coupon!', // Optional, add an offer into message
+   offerCode: '@itsliaaa/starcore', // Optional
+   offerUrl: 'https://www.npmjs.com/package/@itsliaaa/starcore', // Optional
+   offerExpiration: Date.now() + 3_600_000, // Optional
+   asTemplate: false // Optional, wrap the interactive message as template
 })
 ```
 
@@ -303,9 +295,7 @@ sock.sendInteractive(jid, [{
 
 ```javascript
 sock.sendCarousel(jid, [{
-   image: {
-      url: './path/to/image.jpg'
-   },
+   media: bufferOrUrl,
    caption: '🖼️ Image 1',
    footer: '🏷️️ Pinterest',
    nativeFlow: [{
@@ -314,9 +304,7 @@ sock.sendCarousel(jid, [{
       useWebview: true
    }]
 }, {
-   image: {
-      url: './path/to/image.jpg'
-   },
+   media: bufferOrUrl,
    caption: '🖼️ Image 2',
    footer: '🏷️ Pinterest',
    offerText: '🏷️ New Coupon!',
@@ -328,9 +316,7 @@ sock.sendCarousel(jid, [{
       url: 'https://www.npmjs.com/package/@itsliaaa/starcore'
    }]
 }, {
-   image: {
-      url: './path/to/image.jpg'
-   },
+   media: bufferOrUrl,
    caption: '🖼️ Image 3',
    footer: '🏷️ Pinterest',
    optionText: '👉🏻 Select Options',
@@ -363,7 +349,7 @@ sock.sendLegacyButton(jid, [{
 }], message, {
    text: '👆🏻 Buttons!',
    footer: '@itsliaaa/starcore',
-   viewOnce: false // --- Optional, change to "true" if want proper render on WhatsApp Web
+   viewOnce: false // Optional, change to "true" if want proper render on WhatsApp Web
 })
 
 // --- Buttons with Media & List
@@ -391,9 +377,7 @@ sock.sendLegacyButton(jid, [{
       }]
    }]
 }], message, {
-   image: {
-      url: './path/to/image.jpg'
-   },
+   media: bufferOrUrl,
    caption: '👆🏻 Buttons and List!',
    footer: '@itsliaaa/starcore'
 })
@@ -437,9 +421,9 @@ sock.sendPoll(jid, [
    name: '🔥 Is it good?',
    selectableCount: 1,
    toAnnouncementGroup: false,
-   endDate: new Date(Date.now() + 28_800_000), // --- Optional
-   hideVoter: false, // --- Optional
-   canAddOption: false // --- Optional
+   endDate: new Date(Date.now() + 28_800_000), // Optional
+   hideVoter: false, // Optional
+   canAddOption: false // Optional
 })
 
 // --- Quiz (only for newsletter)
@@ -545,7 +529,7 @@ sock.sendRich(jid, [{
    imageUrl: 'https://path-to-image.com/',
    additionalImages: [{
       url: 'https://path-to-tiny-image.com/'
-   }] // --- Optional
+   }] // Optional
 }, {
    products: [{
       title: 'Starseed Premium Script',
@@ -610,10 +594,10 @@ sock.sendRich(jid, [{
       displayName: 'Simple Baileys Wrapper',
       sourceUrl: 'https://path-to-web.com/',
       faviconUrl: 'https://path-to-tiny-image.com/',
-      mime: 'image/jpeg' // --- Optional, the mime type of favicon
+      mime: 'image/jpeg' // Optional, the mime type of favicon
    }]
 }], message, {
-   notify: false, // --- Optional
+   notify: false, // Optional
    disclaimerText: 'Example Usage of sendRich()'
 })
 ```
@@ -622,8 +606,8 @@ sock.sendRich(jid, [{
 
 ```javascript
 sock.sendCopyMessage(jid, message, {
-   forwardingScore: 1, // --- Optional
-   quoted: message // --- Optional
+   forwardingScore: 1, // Optional
+   quoted: message // Optional
 })
 ```
 
@@ -636,11 +620,11 @@ sock.sendCopyMessage(jid, message, {
 sock.sendStatus([jid], {
    text: '👋🏻 Hello!'
 }, {
-   mention: false, // --- Optional
+   mention: false, // Optional
    closeFriends: {
       name: '@itsliaaa/starcore',
       emoji: '✨'
-   } // --- Optional
+   } // Optional
 })
 ```
 
@@ -656,7 +640,7 @@ sock.sendGroupStatus(jid, {
    closeFriends: {
       name: '@itsliaaa/starcore',
       emoji: '✨'
-   } // --- Optional
+   } // Optional
 })
 ```
 
@@ -668,14 +652,14 @@ sock.sendGroupStatus(jid, {
 ```javascript
 import { Database } from '@itsliaaa/starcore'
 
-const jsonDb = Database.saveToLocal('database.json')
-await jsonDb.read('database.json') // --- Read database from file, will return empty object if not exists
-await jsonDb.write({
+const db = Database.saveToLocal('database.json')
+const data = await db.read('database.json') // Read database from file, will return empty object if not exists
+await db.write({
    users: {},
    groups: {},
    contacts: {},
    settings: {}
-}) // --- Save data to file
+}) // Save data to file
 ```
 
 ### 🌐 Request
@@ -688,8 +672,12 @@ import { Request } from '@itsliaaa/starcore'
 
 // --- Quick request
 const result = await Request.request('https://path-to-web-api.com/', {
-   timeout: 3000 // --- Default: 1.5 minutes
+   timeout: 3000 // Default: 1.5 minutes
 })
+
+// --- Get url from redirect url
+const maxRedirects = 3 // Default: 3
+const realUrl = await Request.resolveUrl('https://path-to-redirect.com/', maxRedirects)
 
 // --- Create a fast path
 const someApi = Request.createApiRequest('https://path-to-web-api.com/')
@@ -697,7 +685,7 @@ const someApi = Request.createApiRequest('https://path-to-web-api.com/')
 const getResult = await someApi('path/to/get', {
    q: 'Hello'
 }, {
-   // --- Optional
+   // Optional
    timeout: 3000,
    method: 'GET',
    headers: {}
@@ -714,6 +702,18 @@ const postResult = await someApi('path/to/post', null, {
 })
 ```
 
+### 📚 Exported Modules
+
+```javascript
+import {
+   Database,
+   Client,
+   Request,
+   Scraper,
+   Utilities
+} from '@itsliaaa/starcore'
+```
+
 ### 🚀 Try the Bot
 
 A fast, lightweight, and modular WhatsApp bot built with [@itsliaaa/starcore](https://www.npmjs.com/package/@itsliaaa/starcore).
@@ -723,7 +723,7 @@ Perfect for managing groups, moderating chats, and adding fun with quiz games an
 
 ### 📣 Credits
 
-this project uses Protocol Buffer definitions maintained by [WPP Connect](https://github.com/wppconnect-team) via [`wa-proto`](https://github.com/wppconnect-team/wa-proto) for the `updateProtoOnStartup` feature.
+This project uses Protocol Buffer definitions maintained by [WPP Connect](https://github.com/wppconnect-team) via [`wa-proto`](https://github.com/wppconnect-team/wa-proto) for the `updateProtoOnStartup` feature.
 
 Special thanks to the original Baileys maintainers and contributors:
 - [purpshell](https://github.com/purpshell)

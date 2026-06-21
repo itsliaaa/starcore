@@ -30,6 +30,7 @@
       "baileys",
       "bot",
       "interactive-messages",
+      "native-flow",
       "sticker-pack",
       "whatsapp",
       "whatsapp-api",
@@ -40,6 +41,7 @@
    "author": "Lia Wynn",
    "license": "AGPL-3.0-or-later",
    "dependencies": {
+      "cheerio": "^1.2.0",
       "fflate": "^0.8.3",
       "ffmpeg-static": "^5.3.0",
       "file-type": "^22.0.1",

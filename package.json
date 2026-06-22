@@ -3,7 +3,6 @@
    "version": "0.0.0-alpha.0",
    "description": "A lightweight yet powerful Baileys wrapper designed to simplify development while extending support for additional message types and WhatsApp features.",
    "main": "./lib/index.js",
-   "types": "./lib/index.d.ts",
    "type": "module",
    "scripts": {
       "preinstall": "node ./engine-requirements.js"
@@ -11,8 +10,7 @@
    "exports": {
       ".": {
          "import": "./lib/index.js",
-         "require": "./lib/index.js",
-         "types": "./lib/index.d.ts"
+         "require": "./lib/index.js"
       }
    },
    "files": [

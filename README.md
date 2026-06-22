@@ -68,7 +68,7 @@ client.on('message', (ctx) => {
 })
 ```
 
-> [!TIP]
+> [!IMPORTANT]
 > The underlying Baileys socket instance is available through `client.sock`.
 
 ```javascript
@@ -762,4 +762,4 @@ Special thanks to the original Baileys maintainers and contributors:
 
 **This project is created and maintained by [Lia Wynn](https://github.com/itsliaaa)**
 
-If you use, modify, or redistribute this project, please keep the original credits intact.
+Please do not remove or alter the original credits, copyright notices, or attributions.

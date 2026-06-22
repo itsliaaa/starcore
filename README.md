@@ -62,7 +62,7 @@ const client = new Client({
 })
 
 client.on('message', (ctx) => {
-   if (ctx.m.body === 'hello') {
+   if (ctx.body === 'hello') {
       ctx.m.reply('👋 Hello there!')
    }
 })
@@ -88,7 +88,7 @@ const client = new Client({
       phoneNumber: '6281111111111',
       customCode: 'starcore'
    },
-   isBotMessage: (id) =>
+   isBotMessageId: (id) =>
       typeof id === 'string' && id.includes('3EB0'),
    messageIdPrefix: 'starcore',
    readMessage: true,
@@ -99,6 +99,7 @@ const client = new Client({
       newsletterJid: '',
       newsletterName: ''
    }, // IForwardedNewsletterMessageInfo | false
+   saveStoreInterval: 30 * 60 * 1000, // Default: 30 minutes
    temporaryFileInterval: 45 * 60 * 1000, // Default: 45 minutes
    gcInterval: 1.5 * 60 * 60 * 1000 // Default: 1.5 hours
 }, {
@@ -111,15 +112,42 @@ const client = new Client({
 ### 📡 Events Reference
 
 ```javascript
+client.once('ready', console.log)
 client.on('message', console.log)
 client.on('message.edit', console.log)
 client.on('message.delete', console.log)
+client.on('poll', console.log)
+client.on('status', console.log)
 client.on('group.add', console.log)
 client.on('group.promote', console.log)
 client.on('group.demote', console.log)
 client.on('group.remove', console.log)
-client.on('call', console.log)
+client.on('label.update', console.log)
+client.on('caller', console.log)
 client.on('presence', console.log)
+```
+
+### 👥 Find User ID
+
+Quickly resolve a user's `JID` and retrieve both `PN` and `LID` in a synchronous function.
+
+```javascript
+// Accepts either @s.whatsapp.net or @lid
+const jidLid = '621111111111@s.whatsapp.net'
+
+const result = sock.findUserId(jidLid)
+
+// --- Success
+// {
+//    phoneNumber: '621111111111@s.whatsapp.net',
+//    lid: '121111111111@lid'
+// }
+
+// --- Not found
+// {
+//    phoneNumber: '621111111111@s.whatsapp.net',
+//    lid: undefined // or null
+// }
 ```
 
 ### 📨 Sending Messages
@@ -201,7 +229,7 @@ sock.sendStickerPack = async (jid, [bufferOrUrl, bufferOrUrl], m, {
    cover: bufferOrUrl,
    name: '📦 Sticker Pack',
    publisher: 'GitHub: itsliaaa',
-   description: '⚡ itsliaaa/starcore'
+   description: '✨ itsliaaa/starcore'
 })
 ```
 
@@ -461,7 +489,7 @@ sock.sendQuizResult(jid, '🏆 Quiz Result', [{
 
 ```javascript
 sock.sendRich(jid, [{
-   text: '# ⚡ @itsliaaa/starcore\n\n---\n',
+   text: '# ✨ @itsliaaa/starcore\n\n---\n',
 }, {
    language: 'javascript',
    code: `console.log("Hello World")`
@@ -732,4 +760,6 @@ Special thanks to the original Baileys maintainers and contributors:
 
 <!-- Please do not replace my name with yours. It's disrespectful. -->
 
-This project is created and maintained by [Lia Wynn](https://github.com/itsliaaa)
+**This project is created and maintained by [Lia Wynn](https://github.com/itsliaaa)**
+
+If you use, modify, or redistribute this project, please keep the original credits intact.

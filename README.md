@@ -29,6 +29,44 @@
 
 > ⚠️ **Minimum Baileys Version**: `7.0.0-rc10` or higher.
 
+### 📋 Table of Contents
+
+- [📋 Table of Contents]()
+- [📌 Highlights]()
+- [📥 Installations]()
+   - [📄 Via `package.json`]()
+   - [⌨️ Via terminal]()
+   - [🧩 Import (ESM & CJS)]()
+- [📄 Quick Step]()
+- [⚙️ Advanced Usage]()
+- [📡 Events Reference]()
+- [👥 Find User ID]()
+- [📨 Sending Messages]()
+   - [🔠 Text]()
+   - [📰 Link Preview]()
+   - [😄 Reaction]()
+   - [📂 Media]()
+   - [⚪ PTV]()
+   - [📃 Sticker]()
+   - [📦 Sticker Pack]()
+   - [👤 Contact]()
+   - [🖼️ Album]()
+   - [🗄️ Interactive]()
+   - [🎠 Carousel]()
+   - [🔘 Legacy Button]()
+   - [📋 Legacy List]()
+   - [📊 Poll]()
+   - [📈 Poll Result]()
+   - [✨ Rich]()
+   - [🗒️ Copy & Forward]()
+   - [🎞️ Status Mention]()
+   - [👥 Group Status]()
+- [🗳️ Database]()
+- [🌐 Request]()
+- [📚 Exported Modules]()
+- [🚀 Try the Bot]()
+- [📣 Credits]()
+
 ### 📌 Highlights
 
 - Improved `createParticipantNodes()` by introducing yielding, preventing potential freezes during participant node generation.
@@ -40,15 +78,43 @@
 
 Built with a focus on simplicity, and better compatibility with modern WhatsApp features.
 
-### 🌱 Future Plans
+### 📥 Installations
 
-For now, the alpha release ships with a built-in JSON adapter for Database, Store, and Auth State.
+#### 📄 Via `package.json`
 
-More adapters will join the party in future releases. ✨
+```json
+# NPM
+"dependencies": {
+   "@itsliaaa/starcore": "latest"
+}
 
-Until then, JSON remains the recommended choice for development, testing, and lightweight deployments.
+# GitHub
+"dependencies": {
+   "@itsliaaa/starcore": "github:itsliaaa/starcore"
+}
+```
 
-### 📄 Basic Usage
+#### ⌨️ Via terminal
+
+```bash
+# NPM
+npm i @itsliaaa/starcore@latest
+
+# GitHub
+npm i github:itsliaaa/starcore
+```
+
+#### 🧩 Import (ESM & CJS)
+
+```javascript
+// --- ESM
+import { Client } from '@itsliaaa/starcore'
+
+// --- CJS (tested and working on Node.js 24 ✅)
+const { Client } = require('@itsliaaa/starcore')
+```
+
+### 📄 Quick Step
 
 ```javascript
 import { Client } from '@itsliaaa/starcore'

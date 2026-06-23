@@ -14,7 +14,8 @@
       }
    },
    "files": [
-      "lib/**/*"
+      "lib/**/*",
+      "engine-requirements.js"
    ],
    "engines": {
       "node": ">=20.0.0"

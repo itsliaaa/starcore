@@ -31,41 +31,53 @@
 
 ### 📋 Table of Contents
 
-- [📋 Table of Contents]()
-- [📌 Highlights]()
-- [📥 Installations]()
-   - [📄 Via `package.json`]()
-   - [⌨️ Via terminal]()
-   - [🧩 Import (ESM & CJS)]()
-- [📄 Quick Step]()
-- [⚙️ Advanced Usage]()
-- [📡 Events Reference]()
-- [👥 Find User ID]()
-- [📨 Sending Messages]()
-   - [🔠 Text]()
-   - [📰 Link Preview]()
-   - [😄 Reaction]()
-   - [📂 Media]()
-   - [⚪ PTV]()
-   - [📃 Sticker]()
-   - [📦 Sticker Pack]()
-   - [👤 Contact]()
-   - [🖼️ Album]()
-   - [🗄️ Interactive]()
-   - [🎠 Carousel]()
-   - [🔘 Legacy Button]()
-   - [📋 Legacy List]()
-   - [📊 Poll]()
-   - [📈 Poll Result]()
-   - [✨ Rich]()
-   - [🗒️ Copy & Forward]()
-   - [🎞️ Status Mention]()
-   - [👥 Group Status]()
-- [🗳️ Database]()
-- [🌐 Request]()
-- [📚 Exported Modules]()
-- [🚀 Try the Bot]()
-- [📣 Credits]()
+- [📋 Table of Contents](#-table-of-contents)
+- [📌 Highlights](#-highlights)
+- [📥 Installations](#-installations)
+   - [📄 Via `package.json`](#-via-packagejson)
+   - [⌨️ Via terminal](#%EF%B8%8F-via-terminal)
+   - [🧩 Import (ESM & CJS)](#-import-esm--cjs)
+- [📄 Quick Step](#-quick-step)
+- [⚙️ Advanced Usage](#%EF%B8%8F-advanced-usage)
+- [📡 Events Reference](#-events-reference)
+- [👥 Find User ID](#-find-user-id)
+- [📨 Sending Messages](#-sending-messages)
+   - [🔠 Text](#-text)
+   - [📰 Link Preview](#-link-preview)
+   - [😄 Reaction](#-reaction)
+   - [📂 Media](#-media)
+   - [⚪ PTV](#-ptv)
+   - [📃 Sticker](#-sticker)
+   - [📦 Sticker Pack](#-sticker-pack)
+   - [👤 Contact](#-contact)
+   - [🖼️ Album](#%EF%B8%8F-album)
+   - [🗄️ Interactive](#%EF%B8%8F-interactive)
+   - [🎠 Carousel](#-carousel)
+   - [🔘 Legacy Button](#-legacy-button)
+   - [📋 Legacy List](#-legacy-list)
+   - [📊 Poll](#-poll)
+   - [📈 Poll Result](#-poll-result)
+   - [✨ Rich](#-rich)
+   - [🗒️ Copy & Forward](#%EF%B8%8F-copy--forward)
+   - [🎞️ Status Mention](#%EF%B8%8F-status-mention)
+   - [👥 Group Status](#-group-status)
+- [♻️ Modify Messages](#%EF%B8%8F-modify-messages)
+   - [🗑️ Delete Messages](#%EF%B8%8F-delete-messages)
+   - [✏️ Edit Messages](#%EF%B8%8F-edit-messages)
+- [⚙️ Baileys Features](#%EF%B8%8F-baileys-features)
+   - [🔑 Request Custom Pairing Code](#-request-custom-pairing-code)
+   - [📣 Newsletter Management](#-newsletter-management)
+   - [👥 Group Management](#-group-management)
+   - [👥 Community Management](#-community-management)
+   - [👤 Profile Management](#-profile-management)
+   - [🛒 Business Management](#-business-management)
+   - [🔐 Privacy Management](#-privacy-management)
+- [🧩 Extra Features](#-extra-features)
+   - [🗳️ Database](#%EF%B8%8F-database)
+   - [🌐 Request](#-request)
+- [📚 Exported Modules](#-exported-modules)
+- [🚀 Try the Bot](#-try-the-bot)
+- [📣 Credits](#-credits)
 
 ### 📌 Highlights
 
@@ -738,7 +750,485 @@ sock.sendGroupStatus(jid, {
 })
 ```
 
-### 🗳️ Database
+### ♻️ Modify Messages
+
+#### 🗑️ Delete Messages
+
+```javascript
+sock.sendMessage(jid, {
+   delete: message.key
+})
+```
+
+#### ✏️ Edit Messages
+
+```javascript
+// --- Edit plain text
+sock.sendMessage(jid, {
+   text: '✨ I mean, nice!',
+   edit: message.key
+})
+
+// --- Edit media messages caption
+sock.sendMessage(jid, {
+   caption: '✨ I mean, here is the image!',
+   edit: message.key
+})
+```
+
+### ⚙️ Baileys Features
+
+#### 🔑 Request Custom Pairing Code
+
+> [!NOTE]
+> The phone number must contain numbers only (no +, (), or -) and must include the country code.
+
+```javascript
+const phoneNumber = '6281111111111'
+const customPairingCode = 'STARFALL'
+
+await sock.requestPairingCode(phoneNumber, customPairingCode)
+
+console.log('🔗 Pairing code', ':', customPairingCode)
+```
+
+#### 📣 Newsletter Management
+
+```javascript
+// --- Create a new one
+sock.newsletterCreate('@itsliaaa/starcore', '📣 Fresh updates weekly')
+
+// --- Get info
+const metadata = sock.newsletterMetadata('1231111111111@newsletter')
+console.dir(metadata, { depth: null })
+
+// --- Get subscribers count
+const subscribers = await sock.newsletterSubscribers('1231111111111@newsletter')
+console.dir(subscribers, { depth: null })
+
+// --- Follow and Unfollow
+sock.newsletterFollow('1231111111111@newsletter')
+sock.newsletterUnfollow('1231111111111@newsletter')
+
+// --- Mute and Unmute
+sock.newsletterMute('1231111111111@newsletter')
+sock.newsletterUnmute('1231111111111@newsletter')
+
+// --- Demote admin
+sock.newsletterDemote('1231111111111@newsletter', '6281111111111@s.whatsapp.net')
+
+// --- Change owner
+sock.newsletterChangeOwner('1231111111111@newsletter', '6281111111111@s.whatsapp.net')
+
+// --- Update newsletter
+sock.newsletterUpdate('1231111111111@newsletter', { name: '@itsliaaa/starcore' })
+
+// --- Change name
+sock.newsletterUpdateName('1231111111111@newsletter', '✨ @itsliaaa/starcore')
+
+// --- Change description
+sock.newsletterUpdateDescription('1231111111111@newsletter', '📣 Fresh updates weekly')
+
+// --- Change photo
+sock.newsletterUpdatePicture('1231111111111@newsletter', {
+   url: 'path/to/image.jpg'
+})
+
+// --- Remove photo
+sock.newsletterRemovePicture('1231111111111@newsletter')
+
+// --- React to a message
+sock.newsletterReactMessage('1231111111111@newsletter', '100', '💛')
+
+// --- Get admin count
+const count = await sock.newsletterAdminCount('1231111111111@newsletter')
+
+// --- Get all subscribed newsletters
+const newsletters = await sock.newsletterSubscribed()
+console.dir(newsletters, { depth: null })
+
+// --- Fetch newsletter messages
+const messages = sock.newsletterFetchMessages('jid', '1231111111111@newsletter', 50, 0, 0)
+console.dir(messages, { depth: null })
+
+// --- Delete newsletter
+sock.newsletterDelete('1231111111111@newsletter')
+```
+
+#### 👥 Group Management
+
+```javascript
+// --- Create a new one and add participants using their JIDs
+const group = sock.groupCreate('@itsliaaa/starcore', ['628123456789@s.whatsapp.net'])
+console.dir(group, { depth: null })
+
+// --- Get info
+const metadata = await sock.groupMetadata(jid)
+console.dir(metadata, { depth: null })
+
+// --- Get group invite code
+const inviteCode = await sock.groupInviteCode(jid)
+console.dir(inviteCode, { depth: null })
+
+
+// --- Revoke invite link
+sock.groupRevokeInvite(jid)
+
+// --- Accept group invite
+sock.groupAcceptInvite(inviteCode)
+
+// --- Leave group
+sock.groupLeave(jid)
+
+// --- Add participants
+sock.groupParticipantsUpdate(jid, ['628123456789@s.whatsapp.net'], 'add')
+
+// --- Remove participants
+sock.groupParticipantsUpdate(jid, ['628123456789@s.whatsapp.net'], 'remove')
+
+// --- Promote to admin
+sock.groupParticipantsUpdate(jid, ['628123456789@s.whatsapp.net'], 'promote')
+
+// --- Demote from admin
+sock.groupParticipantsUpdate(jid, ['628123456789@s.whatsapp.net'], 'demote')
+
+// --- Accept join requests
+sock.groupRequestParticipantsUpdate(jid, ['628123456789@s.whatsapp.net'], 'approve')
+
+// --- Change name
+sock.groupUpdateSubject(jid, '✨ @itsliaaa/starcore')
+
+// --- Change description
+sock.groupUpdateDescription(jid, 'Updated description')
+
+// --- Change photo
+sock.updateProfilePicture(jid, {
+   url: 'path/to/image.jpg'
+})
+
+// --- Remove photo
+sock.removeProfilePicture(jid)
+
+// --- Set group as admin only for chatting
+sock.groupSettingUpdate(jid, 'announcement')
+
+// --- Set group as open to all for chatting
+sock.groupSettingUpdate(jid, 'not_announcement')
+
+// --- Set admin only can edit group info
+sock.groupSettingUpdate(jid, 'locked')
+
+// --- Set all participants can edit group info
+sock.groupSettingUpdate(jid, 'unlocked')
+
+// --- Set admin only can add participants
+sock.groupMemberAddMode(jid, 'admin_add')
+
+// --- Set all participants can add participants
+sock.groupMemberAddMode(jid, 'all_member_add')
+
+// --- Enable or disable temporary messages with seconds format
+sock.groupToggleEphemeral(jid, 86400)
+
+// --- Disable temporary messages
+sock.groupToggleEphemeral(jid, 0)
+
+// --- Enable or disable membership approval mode
+sock.groupJoinApprovalMode(jid, 'on')
+sock.groupJoinApprovalMode(jid, 'off')
+
+// --- Get all groups metadata
+const groups = await sock.groupFetchAllParticipating()
+console.dir(groups, { depth: null })
+
+// --- Get pending join requests
+const requests = await sock.groupRequestParticipantsList(jid)
+console.dir(requests, { depth: null })
+
+// --- Get group info from link
+const group = await sock.groupGetInviteInfo('ABC123456789')
+console.log('👥 Got group info from invite code', ':', group)
+
+// --- Update bot member label
+sock.updateMemberLabel(jid, '@itsliaaa/starcore')
+```
+
+#### 👥 Community Management
+
+```javascript
+// --- Create a new one and add description
+const community = await sock.communityCreate('@itsliaaa/starcore', '📣 Fresh updates weekly')
+console.dir(community, { depth: null })
+
+// --- Create a subgroup for community and add participants using their JIDs
+const group = await sock.communityCreateGroup('📢 Announcements', ['628123456789@s.whatsapp.net'], communityJid)
+
+// --- Link an existing group
+sock.communityLinkGroup(groupJid, communityJid)
+
+// --- Unlink an existing group
+sock.communityUnlinkGroup(groupJid, communityJid)
+
+// --- Get info
+const metadata = await sock.communityMetadata(jid)
+console.dir(metadata, { depth: null })
+
+// --- Get community invite code
+const inviteCode = await sock.communityInviteCode(jid)
+console.dir(inviteCode, { depth: null })
+
+// --- Revoke invite link
+sock.communityRevokeInvite(jid)
+
+// --- Accept community invite
+sock.communityAcceptInvite(inviteCode)
+
+// --- Leave community
+sock.communityLeave(jid)
+
+// --- Accept join requests
+sock.communityRequestParticipantsUpdate(jid, ['628123456789@s.whatsapp.net'], 'approve')
+
+// --- Change name
+sock.communityUpdateSubject(jid, '✨ @itsliaaa/starcore')
+
+// --- Change description
+sock.communityUpdateDescription(jid, 'Updated description')
+
+// --- Set community as admin only for chatting
+sock.communitySettingUpdate(jid, 'announcement')
+
+// --- Set community as open to all for chatting
+sock.communitySettingUpdate(jid, 'not_announcement')
+
+// --- Set admin only can edit community info
+sock.communitySettingUpdate(jid, 'locked')
+
+// --- Set all participants can edit community info
+sock.communitySettingUpdate(jid, 'unlocked')
+
+// --- Set admin only can add participants
+sock.communityMemberAddMode(jid, 'admin_add')
+
+// --- Set all participants can add participants
+sock.communityMemberAddMode(jid, 'all_member_add')
+
+// --- Enable or disable temporary messages with seconds format
+sock.communityToggleEphemeral(jid, 86400)
+
+// --- Disable temporary messages
+sock.communityToggleEphemeral(jid, 0)
+
+// --- Enable or disable membership approval mode
+sock.communityJoinApprovalMode(jid, 'on')
+sock.communityJoinApprovalMode(jid, 'off')
+
+// --- Get all communities metadata
+const communities = await sock.communityFetchAllParticipating()
+console.dir(communities, { depth: null })
+
+// --- Get all community linked groups
+const linked = await sock.communityFetchLinkedGroups(jid)
+console.dir(linked, { depth: null })
+
+// --- Get pending join requests
+const requests = await sock.communityRequestParticipantsList(jid)
+console.dir(requests, { depth: null })
+
+// --- Get community info from link
+const community = await sock.communityGetInviteInfo('ABC123456789')
+console.log('👥 Got community info from invite code', ':', community)
+```
+
+#### 👤 Profile Management
+
+```javascript
+// --- Get user profile picture
+const url = await sock.profilePictureUrl(jid, 'image')
+console.log('🖼️ Got user profile url', url)
+
+// --- Update profile picture
+sock.updateProfilePicture(jid, buffer)
+sock.updateProfilePicture(jid, { url })
+
+// --- Remove profile picture
+sock.removeProfilePicture(jid)
+
+// --- Update profile name
+sock.updateProfileName('My Name')
+
+// --- Update profile status
+sock.updateProfileStatus('Available')
+
+// --- Presence
+sock.sendPresenceUpdate('available', jid)
+sock.presenceSubscribe(jid)
+
+// --- Read receipts
+sock.readMessages([message.key])
+sock.sendReceipt(jid, participant, [messageId], 'read')
+
+// --- Block user
+sock.updateBlockStatus(jid, 'block')
+
+// --- Unblock user
+sock.updateBlockStatus(jid, 'unblock')
+
+// --- Fetch blocklist
+const blocked = await sock.fetchBlocklist()
+console.dir(blocked, { depth: null })
+
+// --- Modify chats
+sock.chatModify({
+   archive: true,
+   lastMessageOrig: message,
+   lastMessage: message
+}, jid)
+
+// --- Star messages
+sock.star(jid, [{ id: messageId, fromMe: true }], true)
+
+// --- Contact
+sock.addOrEditContact(jid, { displayName: 'Starseed' })
+sock.removeContact(jid)
+
+// --- Label
+sock.addChatLabel(jid, labelId)
+sock.removeChatLabel(jid, labelId)
+sock.addMessageLabel(jid, messageId, labelId)
+
+// --- App state sync
+sock.resyncAppState(['regular', 'critical_block'], true)
+
+// --- Get business profile
+const profile = await sock.getBusinessProfile(jid)
+console.dir(profile, { depth: null })
+```
+
+#### 🛒 Business Management
+
+```javascript
+// --- Create a new product
+const product = await sock.productCreate({
+   name: '🧩 Starseed (Premium)',
+   description: 'Get a full version of Starseed!',
+   price: 100000,
+   currency: 'IDR',
+   originCountryCode: 'ID',
+   images: [
+      bufferImage,
+      {
+         url: './path/to/image.jpg'
+      }
+   ]
+})
+console.dir(product, { depth: null })
+
+// --- Update product
+await sock.productUpdate(productId, {
+   name: '🧩 Starseed (Premium)',
+   description: 'Get a full version of Starseed with more features!',
+   price: 75000,
+   currency: 'IDR',
+   images: [
+      {
+         url: './path/to/image.jpg'
+      }
+   ]
+})
+
+// --- Delete product
+sock.productDelete([productId])
+
+// --- Get catalog info
+const { products, nextPageCursor } = await sock.getCatalog({
+  jid: '628123456789@s.whatsapp.net',
+  limit: 10
+})
+
+// --- Get collections
+const collections = await sock.getCollections('628123456789@s.whatsapp.net', 10)
+console.dir(collections, { depth: null })
+
+// --- Get order info
+const order = await sock.getOrderDetails(orderId, tokenBase64)
+console.dir(order, { depth: null })
+
+// --- Update business profile
+await sock.updateBusinessProfile({
+   address: 'Jakarta, Indonesia',
+   description: '🛒 Official Starseed Store',
+   websites: ['https://www.npmjs.com/package/@itsliaaa/starcore'],
+   email: 'more-more@gmail.com',
+   hours: {
+      timezone: 'Asia/Jakarta',
+      days: [{ day: 'mon', mode: 'open_24h' }]
+   }
+})
+
+// --- Update cover
+sock.updateCoverPhoto({
+   url: './path/to/image.jpg'
+})
+
+// --- Remove cover
+sock.removeCoverPhoto(coverId)
+
+// --- Update quick replies
+sock.addOrEditQuickReply({
+  shortcut: 'hello',
+  message: 'Hello from business account',
+})
+
+// --- Remove quick reply
+sock.removeQuickReply(timestamp)
+```
+
+#### 🔐 Privacy Management
+
+```javascript
+// --- Update last seen privacy
+sock.updateLastSeenPrivacy('all')
+sock.updateLastSeenPrivacy('contacts')
+sock.updateLastSeenPrivacy('contact_blacklist')
+sock.updateLastSeenPrivacy('nobody')
+
+// --- Update online privacy
+sock.updateOnlinePrivacy('all')
+sock.updateOnlinePrivacy('match_last_seen')
+
+// --- Update profile picture privacy
+sock.updateProfilePicturePrivacy('contacts')
+
+// --- Update status privacy
+sock.updateStatusPrivacy('contacts')
+
+// --- Update read receipts privacy
+sock.updateReadReceiptsPrivacy('all')
+sock.updateReadReceiptsPrivacy('none')
+
+// --- Update groups add privacy
+sock.updateGroupsAddPrivacy('all')
+sock.updateGroupsAddPrivacy('contacts')
+
+// --- Update messages privacy
+sock.updateMessagesPrivacy('all')
+sock.updateMessagesPrivacy('contacts')
+sock.updateMessagesPrivacy('nobody')
+
+// --- Update call privacy
+sock.updateCallPrivacy('everyone')
+
+// --- Update default disappearing mode
+sock.updateDefaultDisappearingMode(86400)
+
+// --- Update link previews privacy
+sock.updateDisableLinkPreviewsPrivacy(true)
+```
+
+### 🧩 Extra Features
+
+#### 🗳️ Database
 
 > [!IMPORTANT]
 > Currently, only the JSON adapter is available. Additional adapters are planned for future releases.
@@ -756,7 +1246,7 @@ await db.write({
 }) // Save data to file
 ```
 
-### 🌐 Request
+#### 🌐 Request
 
 > [!NOTE]
 > This feature relies on Node.js's built-in `fetch()` API along with several other native Node.js capabilities. Therefore, it's highly recommended to use Node.js version 20 or newer (>= 20) to ensure everything works properly.

@@ -85,11 +85,17 @@ Built with a focus on simplicity, and better compatibility with modern WhatsApp 
    - [📡 Baileys Events Reference](#-baileys-events-reference)
 - [🗳️ Database](#%EF%B8%8F-database)
 - [🌐 Request](#-request)
+- [🧳 Environments](#-environments)
 - [📚 Exported Modules](#-exported-modules)
 - [🚀 Try the Bot](#-try-the-bot)
 - [📣 Credits](#-credits)
 
 ### 📥 Installations
+
+> [!IMPORTANT]
+> [`@itsliaaa/starcore`](https://www.npmjs.com/package/@itsliaaa/starcore) does **NOT** install Baileys automatically.
+>
+> You must install a compatible version of Baileys manually before using this package.
 
 #### 📄 Via `package.json`
 
@@ -112,7 +118,7 @@ Built with a focus on simplicity, and better compatibility with modern WhatsApp 
 npm i @itsliaaa/starcore@latest
 
 # GitHub
-npm i github:itsliaaa/starcore
+npm i @itsliaaa/starcore@github:itsliaaa/starcore
 ```
 
 #### 🧩 Import (ESM & CJS)
@@ -172,8 +178,8 @@ const client = new Client({
    updateProtoOnStartup: true, // Default: true
    autoFollowNewsletter: '1211111111111@newsletter', // String | String[] | false
    newsletterAnnotation: {
-      newsletterJid: '',
-      newsletterName: ''
+      newsletterJid: '1211111111111@newsletter',
+      newsletterName: '@itsliaaa/starcore'
    }, // IForwardedNewsletterMessageInfo | false
    saveStoreInterval: 30 * 60 * 1000, // Default: 30 minutes
    temporaryFileInterval: 45 * 60 * 1000, // Default: 45 minutes
@@ -251,7 +257,7 @@ sock.sendAdText(jid, '👆🏻 Check it out!', message, {
 // --- Send a text message with a large link preview and favicon
 sock.sendAdText(jid, '👆🏻 Check it out!', message, {
    thumbnailUrl: 'https://www.npmjs.com/package/@itsliaaa/starcore#readme',
-   title: '🌱 @itsliaaa/starcore',
+   title: '?? @itsliaaa/starcore',
    description: 'Underrated Baileys Wrapper',
    previewType: 0,
    thumbnail: fs.readFileSync('./path/to/image.jpg'),
@@ -525,7 +531,7 @@ sock.sendPoll(jid, [
    name: '🔥 Is it good?',
    selectableCount: 1,
    toAnnouncementGroup: false,
-   endDate: new Date(Date.now() + 28_800_000), // Optional
+   endDate: Date.now() + 28_800_000, // Optional
    hideVoter: false, // Optional
    canAddOption: false // Optional
 })
@@ -1327,6 +1333,18 @@ const postResult = await someApi('path/to/post', null, {
       q: 'Hello'
    })
 })
+```
+
+### 🧳 Environments
+
+> [!TIP]
+> The following environment variables use these values by default. Customize them through [`dotenv`](https://www.npmjs.com/package/dotenv) if needed.
+
+```ini
+# .env
+FFMPEG_PATH="ffmpeg"
+TEMPORARY_PATH="temp"
+TZ="Asia/Jakarta"
 ```
 
 ### 📚 Exported Modules

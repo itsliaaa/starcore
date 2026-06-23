@@ -29,9 +29,19 @@
 
 > ⚠️ **Minimum Baileys Version**: `7.0.0-rc10` or higher.
 
+### 📌 Highlights
+
+- Improved `createParticipantNodes()` by introducing yielding, preventing potential freezes during participant node generation.
+- Enhanced `relayMessage()` with newsletter support and compatibility for sending several important binary payloads.
+- Adapted `prepareWAMessageMedia()` to fully support media delivery to newsletters.
+- Added support for sending `stickerPackMessage` through `sendStickerPack()`.
+- Extended support for multiple interactive messages and button-based message types.
+- Introduced `newsletterSubscribed()` to easily retrieve data from all newsletters the account is currently subscribed to.
+
+Built with a focus on simplicity, and better compatibility with modern WhatsApp features.
+
 ### 📋 Table of Contents
 
-- [📋 Table of Contents](#-table-of-contents)
 - [📌 Highlights](#-highlights)
 - [📥 Installations](#-installations)
    - [📄 Via `package.json`](#-via-packagejson)
@@ -72,23 +82,12 @@
    - [👤 Profile Management](#-profile-management)
    - [🛒 Business Management](#-business-management)
    - [🔐 Privacy Management](#-privacy-management)
-- [🧩 Extra Features](#-extra-features)
-   - [🗳️ Database](#%EF%B8%8F-database)
-   - [🌐 Request](#-request)
+   - [📡 Baileys Events Reference](#-baileys-events-reference)
+- [🗳️ Database](#%EF%B8%8F-database)
+- [🌐 Request](#-request)
 - [📚 Exported Modules](#-exported-modules)
 - [🚀 Try the Bot](#-try-the-bot)
 - [📣 Credits](#-credits)
-
-### 📌 Highlights
-
-- Improved `createParticipantNodes()` by introducing yielding, preventing potential freezes during participant node generation.
-- Enhanced `relayMessage()` with newsletter support and compatibility for sending several important binary payloads.
-- Adapted `prepareWAMessageMedia()` to fully support media delivery to newsletters.
-- Added support for sending `stickerPackMessage` through `sendStickerPack()`.
-- Extended support for multiple interactive messages and button-based message types.
-- Introduced `newsletterSubscribed()` to easily retrieve data from all newsletters the account is currently subscribed to.
-
-Built with a focus on simplicity, and better compatibility with modern WhatsApp features.
 
 ### 📥 Installations
 
@@ -168,11 +167,10 @@ const client = new Client({
    },
    isBotMessageId: (id) =>
       typeof id === 'string' && id.includes('3EB0'),
-   messageIdPrefix: 'starcore',
-   readMessage: true,
-   updatePresence: true,
-   updateProtoOnStartup: true,
-   autoFollowNewsletter: '1111122222@newsletter', // String | String[] | false
+   messageIdPrefix: 'STARCORE',
+   updatePresence: true, // Default: true
+   updateProtoOnStartup: true, // Default: true
+   autoFollowNewsletter: '1211111111111@newsletter', // String | String[] | false
    newsletterAnnotation: {
       newsletterJid: '',
       newsletterName: ''
@@ -190,7 +188,7 @@ const client = new Client({
 ### 📡 Events Reference
 
 ```javascript
-client.once('ready', console.log)
+client.on('ready', console.log)
 client.on('message', console.log)
 client.on('message.edit', console.log)
 client.on('message.delete', console.log)
@@ -211,19 +209,19 @@ Quickly resolve a user's `JID` and retrieve both `PN` and `LID` in a synchronous
 
 ```javascript
 // Accepts either @s.whatsapp.net or @lid
-const jidLid = '621111111111@s.whatsapp.net'
+const jidLid = '6281111111111@s.whatsapp.net'
 
 const result = sock.findUserId(jidLid)
 
 // --- Success
 // {
-//    phoneNumber: '621111111111@s.whatsapp.net',
-//    lid: '121111111111@lid'
+//    phoneNumber: '6281111111111@s.whatsapp.net',
+//    lid: '1211111111111@lid'
 // }
 
 // --- Not found
 // {
-//    phoneNumber: '621111111111@s.whatsapp.net',
+//    phoneNumber: '6281111111111@s.whatsapp.net',
 //    lid: undefined // or null
 // }
 ```
@@ -235,7 +233,7 @@ const result = sock.findUserId(jidLid)
 ```javascript
 sock.sendText(jid, '👋🏻 Hello', message, {
    mentionAll: false, // Optional
-   mentions: ['621111111111@lid', '621111111111@s.whatsapp.net'], // Optional
+   mentions: ['1211111111111@lid', '6281111111111@s.whatsapp.net'], // Optional
 })
 ```
 
@@ -321,7 +319,7 @@ sock.sendContact(jid, [{
    website: 'https://www.npmjs.com/package/@itsliaaa/starcore#readme',
    location: 'Jakarta',
    other: '❤️ Simplified WhatsApp API',
-   number: '621111111111'
+   number: '6281111111111'
 }, {
    name: '❤️ My Big Brother',
    org: '👥 Siblings',
@@ -329,7 +327,7 @@ sock.sendContact(jid, [{
    website: 'https://www.npmjs.com/package/@itsliaaa/starcore#readme',
    location: 'Jakarta',
    other: '❤️ Simplified WhatsApp API',
-   number: '621111111111'
+   number: '6281111111111'
 }], message)
 ```
 
@@ -354,7 +352,7 @@ sock.sendInteractive(jid, [{
    icon: 'review' // Optional
 }, {
    text: '📞 Call',
-   call: '621111111111'
+   call: '6281111111111'
 }, {
    text: '📋 Copy',
    copy: '@itsliaaa/starcore'
@@ -785,7 +783,7 @@ sock.sendMessage(jid, {
 
 ```javascript
 const phoneNumber = '6281111111111'
-const customPairingCode = 'STARFALL'
+const customPairingCode = 'STARCORE'
 
 await sock.requestPairingCode(phoneNumber, customPairingCode)
 
@@ -799,67 +797,67 @@ console.log('🔗 Pairing code', ':', customPairingCode)
 sock.newsletterCreate('@itsliaaa/starcore', '📣 Fresh updates weekly')
 
 // --- Get info
-const metadata = sock.newsletterMetadata('1231111111111@newsletter')
+const metadata = sock.newsletterMetadata('1211111111111@newsletter')
 console.dir(metadata, { depth: null })
 
 // --- Get subscribers count
-const subscribers = await sock.newsletterSubscribers('1231111111111@newsletter')
+const subscribers = await sock.newsletterSubscribers('1211111111111@newsletter')
 console.dir(subscribers, { depth: null })
 
 // --- Follow and Unfollow
-sock.newsletterFollow('1231111111111@newsletter')
-sock.newsletterUnfollow('1231111111111@newsletter')
+sock.newsletterFollow('1211111111111@newsletter')
+sock.newsletterUnfollow('1211111111111@newsletter')
 
 // --- Mute and Unmute
-sock.newsletterMute('1231111111111@newsletter')
-sock.newsletterUnmute('1231111111111@newsletter')
+sock.newsletterMute('1211111111111@newsletter')
+sock.newsletterUnmute('1211111111111@newsletter')
 
 // --- Demote admin
-sock.newsletterDemote('1231111111111@newsletter', '6281111111111@s.whatsapp.net')
+sock.newsletterDemote('1211111111111@newsletter', '6281111111111@s.whatsapp.net')
 
 // --- Change owner
-sock.newsletterChangeOwner('1231111111111@newsletter', '6281111111111@s.whatsapp.net')
+sock.newsletterChangeOwner('1211111111111@newsletter', '6281111111111@s.whatsapp.net')
 
 // --- Update newsletter
-sock.newsletterUpdate('1231111111111@newsletter', { name: '@itsliaaa/starcore' })
+sock.newsletterUpdate('1211111111111@newsletter', { name: '@itsliaaa/starcore' })
 
 // --- Change name
-sock.newsletterUpdateName('1231111111111@newsletter', '✨ @itsliaaa/starcore')
+sock.newsletterUpdateName('1211111111111@newsletter', '✨ @itsliaaa/starcore')
 
 // --- Change description
-sock.newsletterUpdateDescription('1231111111111@newsletter', '📣 Fresh updates weekly')
+sock.newsletterUpdateDescription('1211111111111@newsletter', '📣 Fresh updates weekly')
 
 // --- Change photo
-sock.newsletterUpdatePicture('1231111111111@newsletter', {
+sock.newsletterUpdatePicture('1211111111111@newsletter', {
    url: 'path/to/image.jpg'
 })
 
 // --- Remove photo
-sock.newsletterRemovePicture('1231111111111@newsletter')
+sock.newsletterRemovePicture('1211111111111@newsletter')
 
 // --- React to a message
-sock.newsletterReactMessage('1231111111111@newsletter', '100', '💛')
+sock.newsletterReactMessage('1211111111111@newsletter', '100', '💛')
 
 // --- Get admin count
-const count = await sock.newsletterAdminCount('1231111111111@newsletter')
+const count = await sock.newsletterAdminCount('1211111111111@newsletter')
 
 // --- Get all subscribed newsletters
 const newsletters = await sock.newsletterSubscribed()
 console.dir(newsletters, { depth: null })
 
 // --- Fetch newsletter messages
-const messages = sock.newsletterFetchMessages('jid', '1231111111111@newsletter', 50, 0, 0)
+const messages = sock.newsletterFetchMessages('jid', '1211111111111@newsletter', 50, 0, 0)
 console.dir(messages, { depth: null })
 
 // --- Delete newsletter
-sock.newsletterDelete('1231111111111@newsletter')
+sock.newsletterDelete('1211111111111@newsletter')
 ```
 
 #### 👥 Group Management
 
 ```javascript
 // --- Create a new one and add participants using their JIDs
-const group = sock.groupCreate('@itsliaaa/starcore', ['628123456789@s.whatsapp.net'])
+const group = sock.groupCreate('@itsliaaa/starcore', ['6281111111111@s.whatsapp.net'])
 console.dir(group, { depth: null })
 
 // --- Get info
@@ -881,19 +879,19 @@ sock.groupAcceptInvite(inviteCode)
 sock.groupLeave(jid)
 
 // --- Add participants
-sock.groupParticipantsUpdate(jid, ['628123456789@s.whatsapp.net'], 'add')
+sock.groupParticipantsUpdate(jid, ['6281111111111@s.whatsapp.net'], 'add')
 
 // --- Remove participants
-sock.groupParticipantsUpdate(jid, ['628123456789@s.whatsapp.net'], 'remove')
+sock.groupParticipantsUpdate(jid, ['6281111111111@s.whatsapp.net'], 'remove')
 
 // --- Promote to admin
-sock.groupParticipantsUpdate(jid, ['628123456789@s.whatsapp.net'], 'promote')
+sock.groupParticipantsUpdate(jid, ['6281111111111@s.whatsapp.net'], 'promote')
 
 // --- Demote from admin
-sock.groupParticipantsUpdate(jid, ['628123456789@s.whatsapp.net'], 'demote')
+sock.groupParticipantsUpdate(jid, ['6281111111111@s.whatsapp.net'], 'demote')
 
 // --- Accept join requests
-sock.groupRequestParticipantsUpdate(jid, ['628123456789@s.whatsapp.net'], 'approve')
+sock.groupRequestParticipantsUpdate(jid, ['6281111111111@s.whatsapp.net'], 'approve')
 
 // --- Change name
 sock.groupUpdateSubject(jid, '✨ @itsliaaa/starcore')
@@ -961,7 +959,7 @@ const community = await sock.communityCreate('@itsliaaa/starcore', '📣 Fresh u
 console.dir(community, { depth: null })
 
 // --- Create a subgroup for community and add participants using their JIDs
-const group = await sock.communityCreateGroup('📢 Announcements', ['628123456789@s.whatsapp.net'], communityJid)
+const group = await sock.communityCreateGroup('📢 Announcements', ['6281111111111@s.whatsapp.net'], communityJid)
 
 // --- Link an existing group
 sock.communityLinkGroup(groupJid, communityJid)
@@ -987,7 +985,7 @@ sock.communityAcceptInvite(inviteCode)
 sock.communityLeave(jid)
 
 // --- Accept join requests
-sock.communityRequestParticipantsUpdate(jid, ['628123456789@s.whatsapp.net'], 'approve')
+sock.communityRequestParticipantsUpdate(jid, ['6281111111111@s.whatsapp.net'], 'approve')
 
 // --- Change name
 sock.communityUpdateSubject(jid, '✨ @itsliaaa/starcore')
@@ -1097,6 +1095,15 @@ sock.addChatLabel(jid, labelId)
 sock.removeChatLabel(jid, labelId)
 sock.addMessageLabel(jid, messageId, labelId)
 
+// --- Favorites
+sock.keepFavorites([
+  '6281111111111@s.whatsapp.net',
+  '1211111111111@g.us'
+])
+sock.keepFavorites([
+   '6281111111111@s.whatsapp.net' // only this one remains
+])
+
 // --- App state sync
 sock.resyncAppState(['regular', 'critical_block'], true)
 
@@ -1142,12 +1149,12 @@ sock.productDelete([productId])
 
 // --- Get catalog info
 const { products, nextPageCursor } = await sock.getCatalog({
-  jid: '628123456789@s.whatsapp.net',
+  jid: '6281111111111@s.whatsapp.net',
   limit: 10
 })
 
 // --- Get collections
-const collections = await sock.getCollections('628123456789@s.whatsapp.net', 10)
+const collections = await sock.getCollections('6281111111111@s.whatsapp.net', 10)
 console.dir(collections, { depth: null })
 
 // --- Get order info
@@ -1226,9 +1233,45 @@ sock.updateDefaultDisappearingMode(86400)
 sock.updateDisableLinkPreviewsPrivacy(true)
 ```
 
-### 🧩 Extra Features
+#### 📡 Baileys Events Reference
 
-#### 🗳️ Database
+```javascript
+sock.ev.on('connection.update', console.log)
+sock.ev.on('creds.update', console.log)
+sock.ev.on('messaging-history.set', console.log)
+sock.ev.on('messaging-history.status', console.log)
+sock.ev.on('chats.upsert', console.log)
+sock.ev.on('chats.update', console.log)
+sock.ev.on('chats.delete', console.log)
+sock.ev.on('chats.lock', console.log)
+sock.ev.on('lid-mapping.update', console.log)
+sock.ev.on('presence.update', console.log)
+sock.ev.on('contacts.upsert', console.log)
+sock.ev.on('contacts.update', console.log)
+sock.ev.on('messages.delete', console.log)
+sock.ev.on('messages.update', console.log)
+sock.ev.on('messages.media-update', console.log)
+sock.ev.on('messages.upsert', console.log)
+sock.ev.on('messages.reaction', console.log)
+sock.ev.on('message-receipt.update', console.log)
+sock.ev.on('groups.upsert', console.log)
+sock.ev.on('groups.update', console.log)
+sock.ev.on('group-participants.update', console.log)
+sock.ev.on('group.join-request', console.log)
+sock.ev.on('group.member-tag.update', console.log)
+sock.ev.on('blocklist.set', console.log)
+sock.ev.on('blocklist.update', console.log)
+sock.ev.on('call', console.log)
+sock.ev.on('labels.edit', console.log)
+sock.ev.on('labels.association', console.log)
+sock.ev.on('newsletter.reaction', console.log)
+sock.ev.on('newsletter.view', console.log)
+sock.ev.on('newsletter-participants.update', console.log)
+sock.ev.on('newsletter-settings.update', console.log)
+sock.ev.on('settings.update', console.log)
+```
+
+### 🗳️ Database
 
 > [!IMPORTANT]
 > Currently, only the JSON adapter is available. Additional adapters are planned for future releases.
@@ -1246,7 +1289,7 @@ await db.write({
 }) // Save data to file
 ```
 
-#### 🌐 Request
+### 🌐 Request
 
 > [!NOTE]
 > This feature relies on Node.js's built-in `fetch()` API along with several other native Node.js capabilities. Therefore, it's highly recommended to use Node.js version 20 or newer (>= 20) to ensure everything works properly.
@@ -1300,7 +1343,7 @@ import {
 
 ### 🚀 Try the Bot
 
-A fast, lightweight, and modular WhatsApp bot built with [@itsliaaa/starcore](https://www.npmjs.com/package/@itsliaaa/starcore).
+A fast, lightweight, and modular WhatsApp bot built with [@itsliaaa/baileys](https://www.npmjs.com/package/@itsliaaa/baileys).
 Perfect for managing groups, moderating chats, and adding fun with quiz games and handy tools.
 
 👉🏻 [@itsliaaa/starseed](https://github.com/itsliaaa/starseed#readme)

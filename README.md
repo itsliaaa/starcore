@@ -47,9 +47,13 @@ Built with a focus on simplicity, and better compatibility with modern WhatsApp 
    - [📄 Via `package.json`](#-via-packagejson)
    - [⌨️ Via terminal](#%EF%B8%8F-via-terminal)
    - [🧩 Import (ESM & CJS)](#-import-esm--cjs)
-- [📄 Quick Step](#-quick-step)
+- [📄 Quick Start](#-quick-start)
 - [⚙️ Advanced Usage](#%EF%B8%8F-advanced-usage)
+   - [🧳 Environments](#-environments)
+   - [🗄️ Managing Store](#%EF%B8%8F-store-data)
+   - [🗑️ Temporary Folder](#%EF%B8%8F-temporary-folder)
 - [📡 Events Reference](#-events-reference)
+   - [📄 Message Event Metadata](#-message-event-metadata)
 - [👥 Find User ID](#-find-user-id)
 - [📨 Sending Messages](#-sending-messages)
    - [🔠 Text](#-text)
@@ -85,7 +89,6 @@ Built with a focus on simplicity, and better compatibility with modern WhatsApp 
    - [📡 Baileys Events Reference](#-baileys-events-reference)
 - [🗳️ Database](#%EF%B8%8F-database)
 - [🌐 Request](#-request)
-- [🧳 Environments](#-environments)
 - [📚 Exported Modules](#-exported-modules)
 - [🚀 Try the Bot](#-try-the-bot)
 - [📣 Credits](#-credits)
@@ -131,7 +134,7 @@ import { Client } from '@itsliaaa/starcore'
 const { Client } = require('@itsliaaa/starcore')
 ```
 
-### 📄 Quick Step
+### 📄 Quick Start
 
 ```javascript
 import { Client } from '@itsliaaa/starcore'
@@ -179,16 +182,71 @@ const client = new Client({
    autoFollowNewsletter: '1211111111111@newsletter', // String | String[] | false
    newsletterAnnotation: {
       newsletterJid: '1211111111111@newsletter',
-      newsletterName: '@itsliaaa/starcore'
-   }, // IForwardedNewsletterMessageInfo | false
-   saveStoreInterval: 30 * 60 * 1000, // Default: 30 minutes
-   temporaryFileInterval: 45 * 60 * 1000, // Default: 45 minutes
-   gcInterval: 1.5 * 60 * 60 * 1000 // Default: 1.5 hours
+      newsletterName: '@itsliaaa/starcore',
+      contentType: 1
+   } // IForwardedNewsletterMessageInfo | false
 }, {
    // Baileys socket configuration
    shouldIgnoreJid: (jid) =>
       typeof jid === 'string' && jid.endsWith('bot')
 })
+```
+
+#### 🧳 Environments
+
+The following environment variables are used by default. Override them with [`dotenv`](https://www.npmjs.com/package/dotenv) when needed.
+
+```ini
+# .env
+FFMPEG_PATH="ffmpeg"
+TEMPORARY_PATH="temp"
+TZ="Asia/Jakarta"
+```
+
+#### 🗄️ Managing Store
+
+Manually load and save store data.
+
+```javascript
+const store = client.store
+
+store.readFromFile()
+
+setInterval(async () => {
+   try {
+      await store.writeToFile()
+   }
+   catch (error) {
+      console.error('❌ An unexpected error occurred when saving store', ':', error)
+   }
+}, 600_000)
+```
+
+#### 🗑️ Temporary Folder
+
+Since `0.0.0-alpha.3`, temporary files are no longer cleaned up automatically. Implement your own cleanup routine if required.
+
+```javascript
+import { readdir, unlink } from 'fs/promises'
+import { join } from 'path'
+
+setInterval(async () => {
+   try {
+      const temporaryFiles = await readdir(process.env.TEMPORARY_PATH)
+
+      if (temporaryFiles.length) {
+         for (const fileName of temporaryFiles) {
+            const filePath = join(process.env.TEMPORARY_PATH, fileName)
+            await unlink(filePath)
+         }
+      }
+
+      console.log('🗑️ Cleaned up temp folder')
+   }
+   catch (error) {
+      console.error('❌ Failed to clean temp folder', ':', error)
+   }
+}, 300_000)
 ```
 
 ### 📡 Events Reference
@@ -204,9 +262,87 @@ client.on('group.add', console.log)
 client.on('group.promote', console.log)
 client.on('group.demote', console.log)
 client.on('group.remove', console.log)
+client.on('group.request', console.log)
 client.on('label.update', console.log)
 client.on('caller', console.log)
 client.on('presence', console.log)
+```
+
+#### 📄 Message Event Metadata
+
+The following example shows the payload received from the `message` event.
+
+This event is the primary source of incoming messages and includes commonly used information such as chat ID, sender, message type, quoted message, mentions, and helper methods.
+
+```javascript
+{
+  m: {
+    key: {
+      remoteJid: '120111111111111111@g.us',
+      remoteJidAlt: undefined,
+      remoteJidUsername: undefined,
+      fromMe: false,
+      id: 'AC1908CA012689BB9F468E6B4478EBAB',
+      participant: '1211111111111@lid',
+      participantAlt: '6281111111111@s.whatsapp.net',
+      participantUsername: undefined,
+      addressingMode: 'lid'
+    },
+    category: undefined,
+    messageTimestamp: 1782264500,
+    pushName: '‏liaaa',
+    broadcast: false,
+    message: Message {
+      extendedTextMessage: [ExtendedTextMessage],
+      messageContextInfo: [MessageContextInfo]
+    },
+    id: 'AC1908CA012689BB9F468E6B4478EBAB',
+    chat: '120111111111111111@g.us',
+    sender: '6281111111111@s.whatsapp.net',
+    senderLid: '1211111111111@lid',
+    device: 'android',
+    fromMe: false,
+    isBot: false,
+    isGroup: true,
+    type: 'extendedTextMessage',
+    msg: ExtendedTextMessage {
+      endCardTiles: [],
+      text: '@itsliaaa/starcore',
+      previewType: 0,
+      contextInfo: [ContextInfo],
+      inviteLinkGroupTypeV2: 0
+    },
+    quoted: {
+      text: '@itsliaaa/starcore',
+      contextInfo: [ContextInfo],
+      id: 'AC15B9E93FABF8C9EA230B9093D57OCR',
+      chat: '120111111111111111@g.us',
+      sender: '6281111111111@s.whatsapp.net',
+      senderLid: '1211111111111@lid',
+      device: 'android',
+      fromMe: false,
+      isBot: false,
+      isGroup: true,
+      type: 'conversation',
+      body: '@itsliaaa/starcore',
+      pushName: '‏liaaa',
+      fakeObj: [Object],
+      mentionedJid: [],
+      expiration: 86400
+    },
+    body: '@itsliaaa/starcore',
+    mentionedJid: [],
+    expiration: 86400,
+    reply: [Function (anonymous)],
+    react: [Function (anonymous)]
+  },
+  body: '@itsliaaa/starcore',
+  prefixes: [ '.', '#', '/', '!' ],
+  prefix: '',
+  command: '@itsliaaa/starcore',
+  args: [],
+  text: ''
+}
 ```
 
 ### 👥 Find User ID
@@ -237,7 +373,7 @@ const result = sock.findUserId(jidLid)
 #### 🔠 Text
 
 ```javascript
-sock.sendText(jid, '👋🏻 Hello', message, {
+sock.sendText(jid, '👋🏻 Hello', m, {
    mentionAll: false, // Optional
    mentions: ['1211111111111@lid', '6281111111111@s.whatsapp.net'], // Optional
 })
@@ -246,7 +382,7 @@ sock.sendText(jid, '👋🏻 Hello', message, {
 #### 📰 Link Preview
 
 ```javascript
-sock.sendAdText(jid, '👆🏻 Check it out!', message, {
+sock.sendAdText(jid, '👆🏻 Check it out!', m, {
    thumbnailUrl: 'https://www.npmjs.com/package/@itsliaaa/starcore#readme',
    title: '🌱 @itsliaaa/starcore',
    description: 'Underrated Baileys Wrapper',
@@ -255,9 +391,9 @@ sock.sendAdText(jid, '👆🏻 Check it out!', message, {
 })
 
 // --- Send a text message with a large link preview and favicon
-sock.sendAdText(jid, '👆🏻 Check it out!', message, {
+sock.sendAdText(jid, '👆🏻 Check it out!', m, {
    thumbnailUrl: 'https://www.npmjs.com/package/@itsliaaa/starcore#readme',
-   title: '?? @itsliaaa/starcore',
+   title: '✨ @itsliaaa/starcore',
    description: 'Underrated Baileys Wrapper',
    previewType: 0,
    thumbnail: fs.readFileSync('./path/to/image.jpg'),
@@ -271,13 +407,13 @@ sock.sendAdText(jid, '👆🏻 Check it out!', message, {
 #### 😄 Reaction
 
 ```javascript
-sock.sendReact(jid, '✨', message.key)
+sock.sendReact(jid, '✨', m.key)
 ```
 
 #### 📂 Media
 
 ```javascript
-sock.sendMedia(jid, bufferOrUrl, message, {
+sock.sendMedia(jid, bufferOrUrl, m, {
    mime: 'image/jpeg', // Optional, will automatically detect the mime
    document: false, // Optional, force send as document
    ptv: false, // Optional, force send as PTV
@@ -289,13 +425,13 @@ sock.sendMedia(jid, bufferOrUrl, message, {
 #### ⚪ PTV
 
 ```javascript
-sock.sendPtv(jid, bufferOrUrl, message)
+sock.sendPtv(jid, bufferOrUrl, m)
 ```
 
 #### 📃 Sticker
 
 ```javascript
-sock.sendSticker(jid, bufferOrUrl, message, {
+sock.sendSticker(jid, bufferOrUrl, m, {
    packName: '@itsliaaa/starcore',
    packPublisher: 'by Lia Wynn 🌱',
    isAiSticker: true, // Optional
@@ -334,7 +470,7 @@ sock.sendContact(jid, [{
    location: 'Jakarta',
    other: '❤️ Simplified WhatsApp API',
    number: '6281111111111'
-}], message)
+}], m)
 ```
 
 #### 🖼️ Album
@@ -346,7 +482,7 @@ sock.sendAlbum(jid, [{
 }, {
    media: bufferOrUrl,
    caption: 'Video'
-}], message)
+}], m)
 ```
 
 #### 🗄️ Interactive
@@ -387,7 +523,7 @@ sock.sendInteractive(jid, [{
       }]
    }],
    icon: 'default' // Optional
-}], message, {
+}], m, {
    media: bufferOrUrl,
    caption: '🗄️ Interactive Message',
    footer: '@itsliaaa/starcore',
@@ -443,7 +579,7 @@ sock.sendCarousel(jid, [{
       text: '🌐 Source',
       url: 'https://www.npmjs.com/package/@itsliaaa/starcore'
    }]
-}], message, {
+}], m, {
    text: '🎠 Carousel Message',
    footer: '@itsliaaa/starcore'
 })
@@ -456,7 +592,7 @@ sock.sendCarousel(jid, [{
 sock.sendLegacyButton(jid, [{
    text: '👋🏻 SignUp',
    id: '#SignUp'
-}], message, {
+}], m, {
    text: '👆🏻 Buttons!',
    footer: '@itsliaaa/starcore',
    viewOnce: false // Optional, change to "true" if want proper render on WhatsApp Web
@@ -486,7 +622,7 @@ sock.sendLegacyButton(jid, [{
          id: '#CouponCode'
       }]
    }]
-}], message, {
+}], m, {
    media: bufferOrUrl,
    caption: '👆🏻 Buttons and List!',
    footer: '@itsliaaa/starcore'
@@ -513,7 +649,7 @@ sock.sendLegacyList(jid, [{
       description: '',
       rowId: '#Search'
    }]
-}], message, {
+}], m, {
    text: '📋 List!',
    footer: '@itsliaaa/starcore',
    buttonText: '📋 Select',
@@ -527,7 +663,7 @@ sock.sendLegacyList(jid, [{
 // --- Regular poll message
 sock.sendPoll(jid, [
    '✨ Yes', '💀 No'
-], message, {
+], m, {
    name: '🔥 Is it good?',
    selectableCount: 1,
    toAnnouncementGroup: false,
@@ -539,7 +675,7 @@ sock.sendPoll(jid, [
 // --- Quiz (only for newsletter)
 sock.sendQuiz('1211111111111@newsletter', [
    '✨ Yes', '💀 No'
-], message, {
+], m, {
    name: '🔥 Quiz!',
    correctAnswer: '✨ Yes'
 })
@@ -555,7 +691,7 @@ sock.sendPollResult(jid, '📈 Poll Result', [{
 }, {
    name: '❤️ Love it',
    voteCount: 18
-}], message)
+}], m)
 
 // --- Quiz result message
 sock.sendQuizResult(jid, '🏆 Quiz Result', [{
@@ -564,7 +700,7 @@ sock.sendQuizResult(jid, '🏆 Quiz Result', [{
 }, {
    name: '❤️ Love it',
    voteCount: 18
-}], message)
+}], m)
 ```
 
 #### ✨ Rich
@@ -706,7 +842,7 @@ sock.sendRich(jid, [{
       faviconUrl: 'https://path-to-tiny-image.com/',
       mime: 'image/jpeg' // Optional, the mime type of favicon
    }]
-}], message, {
+}], m, {
    notify: false, // Optional
    disclaimerText: 'Example Usage of sendRich()'
 })
@@ -715,9 +851,9 @@ sock.sendRich(jid, [{
 #### 🗒️ Copy & Forward
 
 ```javascript
-sock.sendCopyMessage(jid, message, {
+sock.sendCopyMessage(jid, m, {
    forwardingScore: 1, // Optional
-   quoted: message // Optional
+   quoted: m // Optional
 })
 ```
 
@@ -760,7 +896,7 @@ sock.sendGroupStatus(jid, {
 
 ```javascript
 sock.sendMessage(jid, {
-   delete: message.key
+   delete: m.key
 })
 ```
 
@@ -770,13 +906,13 @@ sock.sendMessage(jid, {
 // --- Edit plain text
 sock.sendMessage(jid, {
    text: '✨ I mean, nice!',
-   edit: message.key
+   edit: m.key
 })
 
 // --- Edit media messages caption
 sock.sendMessage(jid, {
    caption: '✨ I mean, here is the image!',
-   edit: message.key
+   edit: m.key
 })
 ```
 
@@ -1069,7 +1205,7 @@ sock.sendPresenceUpdate('available', jid)
 sock.presenceSubscribe(jid)
 
 // --- Read receipts
-sock.readMessages([message.key])
+sock.readMessages([m.key])
 sock.sendReceipt(jid, participant, [messageId], 'read')
 
 // --- Block user
@@ -1085,8 +1221,8 @@ console.dir(blocked, { depth: null })
 // --- Modify chats
 sock.chatModify({
    archive: true,
-   lastMessageOrig: message,
-   lastMessage: message
+   lastMessageOrig: m,
+   lastMessage: m
 }, jid)
 
 // --- Star messages
@@ -1107,7 +1243,7 @@ sock.keepFavorites([
   '1211111111111@g.us'
 ])
 sock.keepFavorites([
-   '6281111111111@s.whatsapp.net' // only this one remains
+   '6281111111111@s.whatsapp.net' // Only this one remains
 ])
 
 // --- App state sync
@@ -1333,18 +1469,6 @@ const postResult = await someApi('path/to/post', null, {
       q: 'Hello'
    })
 })
-```
-
-### 🧳 Environments
-
-> [!TIP]
-> The following environment variables use these values by default. Customize them through [`dotenv`](https://www.npmjs.com/package/dotenv) if needed.
-
-```ini
-# .env
-FFMPEG_PATH="ffmpeg"
-TEMPORARY_PATH="temp"
-TZ="Asia/Jakarta"
 ```
 
 ### 📚 Exported Modules

@@ -1,12 +1,9 @@
 {
    "name": "@itsliaaa/starcore",
-   "version": "0.0.0-alpha.2",
+   "version": "0.0.0-alpha.3",
    "description": "A lightweight yet powerful Baileys wrapper designed to simplify development while extending support for additional message types and WhatsApp features.",
    "main": "./lib/index.js",
    "type": "module",
-   "scripts": {
-      "preinstall": "node ./engine-requirements.js"
-   },
    "exports": {
       ".": {
          "import": "./lib/index.js",
@@ -14,8 +11,7 @@
       }
    },
    "files": [
-      "lib/**/*",
-      "engine-requirements.js"
+      "lib/**/*"
    ],
    "engines": {
       "node": ">=20.0.0"
@@ -43,7 +39,7 @@
       "cheerio": "^1.2.0",
       "fflate": "^0.8.3",
       "file-type": "^22.0.1",
-      "qrcode": "~1.5.4"
+      "qrcode": "^1.5.4"
    },
    "packageManager": "yarn@1.22.22"
 }

@@ -105,12 +105,14 @@ Built with a focus on simplicity, and better compatibility with modern WhatsApp 
 ```json
 # NPM
 "dependencies": {
-   "@itsliaaa/starcore": "latest"
+   "@itsliaaa/starcore": "latest",
+   "baileys": "^7.0.0-rc13"
 }
 
 # GitHub
 "dependencies": {
-   "@itsliaaa/starcore": "github:itsliaaa/starcore"
+   "@itsliaaa/starcore": "github:itsliaaa/starcore",
+   "baileys": "^7.0.0-rc13"
 }
 ```
 
@@ -118,10 +120,10 @@ Built with a focus on simplicity, and better compatibility with modern WhatsApp 
 
 ```bash
 # NPM
-npm i @itsliaaa/starcore@latest
+npm i @itsliaaa/starcore@latest baileys@7.0.0-rc13
 
 # GitHub
-npm i @itsliaaa/starcore@github:itsliaaa/starcore
+npm i @itsliaaa/starcore@github:itsliaaa/starcore baileys@7.0.0-rc13
 ```
 
 #### 🧩 Import (ESM & CJS)
@@ -177,6 +179,7 @@ const client = new Client({
    isBotMessageId: (id) =>
       typeof id === 'string' && id.includes('3EB0'),
    messageIdPrefix: 'STARCORE',
+   watchPath: './plugins', // Default: null
    updatePresence: true, // Default: true
    updateProtoOnStartup: true, // Default: true
    autoFollowNewsletter: '1211111111111@newsletter', // String | String[] | false
@@ -328,7 +331,9 @@ This event is the primary source of incoming messages and includes commonly used
       pushName: '‏liaaa',
       fakeObj: [Object],
       mentionedJid: [],
-      expiration: 86400
+      expiration: 86400,
+      reply: [Function (anonymous)],
+      react: [Function (anonymous)]
     },
     body: '@itsliaaa/starcore',
     mentionedJid: [],

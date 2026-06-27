@@ -32,11 +32,13 @@
 ### 📌 Highlights
 
 - Improved `createParticipantNodes()` by introducing yielding, preventing potential freezes during participant node generation.
-- Enhanced `relayMessage()` with newsletter support and compatibility for sending several important binary payloads.
-- Adapted `prepareWAMessageMedia()` to fully support media delivery to newsletters.
+- Enhanced `relayMessage()` with newsletter support and compatibility for sending additional binary payloads.
+- Adapted `prepareWAMessageMedia()` to support media delivery to newsletters.
 - Added support for sending `stickerPackMessage` through `sendStickerPack()`.
-- Extended support for multiple interactive messages and button-based message types.
-- Introduced `newsletterSubscribed()` to easily retrieve data from all newsletters the account is currently subscribed to.
+- Extended support for multiple interactive and button-based message types.
+- Introduced `newsletterSubscribed()` to retrieve information about all newsletters the account is currently subscribed to.
+- `secretEncryptedMessage` is transparently decrypted into `editedMessage`.
+- `vote` in `pollUpdateMessage` is transparently decrypted to reveal the user's selected poll option(s).
 
 Built with a focus on simplicity, and better compatibility with modern WhatsApp features.
 
@@ -88,6 +90,8 @@ Built with a focus on simplicity, and better compatibility with modern WhatsApp 
    - [🔐 Privacy Management](#-privacy-management)
    - [📡 Baileys Events Reference](#-baileys-events-reference)
 - [🗳️ Database](#%EF%B8%8F-database)
+   - [📎 JSON](#-json)
+   - [📎 SQLite](#-sqlite)
 - [🌐 Request](#-request)
 - [📚 Exported Modules](#-exported-modules)
 - [🚀 Try the Bot](#-try-the-bot)
@@ -174,7 +178,8 @@ const client = new Client({
       name: 'session',
       pairingCode: true,
       phoneNumber: '6281111111111',
-      customCode: 'starcore'
+      customCode: 'starcore',
+      type: 'json' // 'json' | 'sqlite'
    },
    isBotMessageId: (id) =>
       typeof id === 'string' && id.includes('3EB0'),
@@ -1015,7 +1020,6 @@ console.dir(metadata, { depth: null })
 const inviteCode = await sock.groupInviteCode(jid)
 console.dir(inviteCode, { depth: null })
 
-
 // --- Revoke invite link
 sock.groupRevokeInvite(jid)
 
@@ -1420,20 +1424,43 @@ sock.ev.on('settings.update', console.log)
 
 ### 🗳️ Database
 
-> [!IMPORTANT]
-> Currently, only the JSON adapter is available. Additional adapters are planned for future releases.
+Including two built-in database backends to fit different use cases:
+
+- **JSON**: A lightweight solution for small projects and straightforward data storage.
+- **SQLite**: Powered by `better-sqlite3`, delivering high performance, low overhead, and a hassle-free experience.
+
+#### 📎 JSON
 
 ```javascript
 import { Database } from '@itsliaaa/starcore'
 
-const db = Database.saveToLocal('database.json')
-const data = await db.read('database.json') // Read database from file, will return empty object if not exists
+const db = await Database.json('database.json')
+
+const data = await db.read()
+
 await db.write({
    users: {},
    groups: {},
-   contacts: {},
    settings: {}
-}) // Save data to file
+})
+```
+
+#### 📎 SQLite
+
+```javascript
+import { Database } from '@itsliaaa/starcore'
+
+const db = await Database.sqlite('database.db')
+
+const data = db.read()
+
+db.write({
+   users: {},
+   groups: {},
+   settings: {}
+})
+
+db.close()
 ```
 
 ### 🌐 Request
@@ -1484,7 +1511,8 @@ import {
    Client,
    Request,
    Scraper,
-   Utilities
+   Utilities,
+   Watcher
 } from '@itsliaaa/starcore'
 ```
 

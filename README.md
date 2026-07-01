@@ -1495,7 +1495,7 @@ Extend(sock, {
 })
 ```
 
-Besides extending your socket with additional helper methods, `Extend` also provides built-in decryption for wsecretEncryptedMessage` to obtain `editedMessage` and automatically decrypts the `vote` payload contained in `pollUpdateMessage`.
+Besides extending your socket with additional helper methods, `Extend` also provides built-in decryption for `secretEncryptedMessage` to obtain `editedMessage` and automatically decrypts the `vote` payload contained in `pollUpdateMessage`.
 
 ### 🌐 Request
 

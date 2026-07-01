@@ -92,6 +92,7 @@ Built with a focus on simplicity, and better compatibility with modern WhatsApp 
 - [🗳️ Database](#%EF%B8%8F-database)
    - [📎 JSON](#-json)
    - [📎 SQLite](#-sqlite)
+- [🧩 Extend](#-extend)
 - [🌐 Request](#-request)
 - [📚 Exported Modules](#-exported-modules)
 - [🚀 Try the Bot](#-try-the-bot)
@@ -186,7 +187,7 @@ const client = new Client({
    messageIdPrefix: 'STARCORE',
    watchPath: './plugins', // Default: null
    updatePresence: true, // Default: true
-   updateProtoOnStartup: true, // Default: true
+   updateProtoOnStartup: true, // Default: false
    autoFollowNewsletter: '1211111111111@newsletter', // String | String[] | false
    newsletterAnnotation: {
       newsletterJid: '1211111111111@newsletter',
@@ -216,18 +217,18 @@ TZ="Asia/Jakarta"
 Manually load and save store data.
 
 ```javascript
-const store = client.store
+client.on('ready', ({ store }) => {
+   store.readFromFile()
 
-store.readFromFile()
-
-setInterval(async () => {
-   try {
-      await store.writeToFile()
-   }
-   catch (error) {
-      console.error('❌ An unexpected error occurred when saving store', ':', error)
-   }
-}, 600_000)
+   setInterval(async () => {
+      try {
+         await store.writeToFile()
+      }
+      catch (error) {
+         console.error('❌ An unexpected error occurred when saving store', ':', error)
+      }
+   }, 600_000)
+})
 ```
 
 #### 🗑️ Temporary Folder
@@ -511,7 +512,8 @@ sock.sendInteractive(jid, [{
 }, {
    text: '🌐 Source',
    url: 'https://www.npmjs.com/package/@itsliaaa/starcore',
-   useWebview: true // Optional
+   useWebView: true // Optional
+   useWebViewPresentation: null // Optional
 }, {
    text: '📋 Select',
    sections: [{
@@ -537,6 +539,8 @@ sock.sendInteractive(jid, [{
    media: bufferOrUrl,
    caption: '🗄️ Interactive Message',
    footer: '@itsliaaa/starcore',
+   audioFooter: '/path/to/audio.mp3', // Optional
+   ptt: false, // Optional, applied when "audioFooter" is set
    optionText: '👉🏻 Select Options', // Optional, wrap all native flow into a single list
    optionTitle: '📄 Select Options', // Optional
    offerText: '🏷️ Newest Coupon!', // Optional, add an offer into message
@@ -1447,6 +1451,9 @@ await db.write({
 
 #### 📎 SQLite
 
+> [!IMPORTANT]
+> [`better-sqlite3@>=12.2.0`](https://www.npmjs.com/package/better-sqlite3) is a peer dependency. You must install it manually and add it to your project's `package.json`.
+
 ```javascript
 import { Database } from '@itsliaaa/starcore'
 
@@ -1462,6 +1469,33 @@ db.write({
 
 db.close()
 ```
+
+### 🧩 Extend
+
+If you prefer not to use the `Client` wrapper but still want the additional features provided by this package, you can use `Extend`.
+
+> [!TIP]
+> `sock` refers to your Baileys socket instance. If your project uses a different variable name such as `conn`, `client`, or anything else, replace it accordingly.
+
+```javascript
+import { Extend } from '@itsliaaa/starcore'
+import { makeWASocket } from 'baileys'
+
+const sock = makeWASocket({ ... })
+
+Extend(sock, {
+   messageIdPrefix: 'STARCORE',
+   updatePresence: true, // Default: true
+   autoFollowNewsletter: '1211111111111@newsletter', // String | String[] | false
+   newsletterAnnotation: {
+      newsletterJid: '1211111111111@newsletter',
+      newsletterName: '@itsliaaa/starcore',
+      contentType: 1
+   } // IForwardedNewsletterMessageInfo | false
+})
+```
+
+Besides extending your socket with additional helper methods, `Extend` also provides built-in decryption for wsecretEncryptedMessage` to obtain `editedMessage` and automatically decrypts the `vote` payload contained in `pollUpdateMessage`.
 
 ### 🌐 Request
 

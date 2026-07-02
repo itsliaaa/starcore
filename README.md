@@ -1477,6 +1477,9 @@ If you prefer not to use the `Client` wrapper but still want the additional feat
 > [!TIP]
 > `sock` is used as the Baileys socket instance throughout this example. If your project uses a different variable name (e.g. `conn` or `client`), replace `sock` with your own variable name.
 
+> [!CAUTION]
+> Your Baileys instance must be extensible and writable, as `Extend` attaches additional methods to the instance.
+
 ```javascript
 import { Extend } from '@itsliaaa/starcore'
 import { makeWASocket } from 'baileys'
@@ -1543,8 +1546,8 @@ const postResult = await someApi('path/to/post', null, {
 
 ```javascript
 import {
-   Database,
    Client,
+   Database,
    Extend,
    Request,
    Scraper,

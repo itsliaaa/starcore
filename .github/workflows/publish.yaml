@@ -28,7 +28,7 @@ jobs:
       - run: yarn install --frozen-lockfile
 
       - name: Publish to npm
-        run: npm publish --provenance --tag latest
+        run: npm publish --access public --provenance --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

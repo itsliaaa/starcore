@@ -1475,7 +1475,7 @@ db.close()
 If you prefer not to use the `Client` wrapper but still want the additional features provided by this package, you can use `Extend`.
 
 > [!TIP]
-> `sock` refers to your Baileys socket instance. If your project uses a different variable name such as `conn`, `client`, or anything else, replace it accordingly.
+> `sock` is used as the Baileys socket instance throughout this example. If your project uses a different variable name (e.g. `conn` or `client`), replace `sock` with your own variable name.
 
 ```javascript
 import { Extend } from '@itsliaaa/starcore'
@@ -1483,7 +1483,7 @@ import { makeWASocket } from 'baileys'
 
 const sock = makeWASocket({ ... })
 
-Extend(sock, {
+await Extend(sock, {
    messageIdPrefix: 'STARCORE',
    updatePresence: true, // Default: true
    autoFollowNewsletter: '1211111111111@newsletter', // String | String[] | false
@@ -1493,6 +1493,8 @@ Extend(sock, {
       contentType: 1
    } // IForwardedNewsletterMessageInfo | false
 })
+
+// sock.sendText(jid, 'Hello there', message)
 ```
 
 Besides extending your socket with additional helper methods, `Extend` also provides built-in decryption for `secretEncryptedMessage` to obtain `editedMessage` and automatically decrypts the `vote` payload contained in `pollUpdateMessage`.
@@ -1543,6 +1545,7 @@ const postResult = await someApi('path/to/post', null, {
 import {
    Database,
    Client,
+   Extend,
    Request,
    Scraper,
    Utilities,

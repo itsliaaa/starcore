@@ -24,7 +24,6 @@ jobs:
           scope: '@itsliaaa'
 
       - run: corepack enable
-
       - run: yarn install --frozen-lockfile
 
       - name: Publish to npm

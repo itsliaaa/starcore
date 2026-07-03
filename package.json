@@ -1,6 +1,6 @@
 {
    "name": "@itsliaaa/starcore",
-   "version": "0.0.0-alpha.8",
+   "version": "0.0.0-alpha.9",
    "description": "A lightweight yet powerful Baileys wrapper designed to simplify development while extending support for additional message types and WhatsApp features.",
    "main": "./lib/index.js",
    "type": "module",
@@ -19,6 +19,10 @@
    "repository": {
       "type": "git",
       "url": "git+https://github.com/itsliaaa/starcore.git"
+   },
+   "funding": {
+      "type": "donate",
+      "url": "https://saweria.co/itsliaaa"
    },
    "keywords": [
       "automation",

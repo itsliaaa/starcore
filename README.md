@@ -67,12 +67,12 @@ Built with a focus on simplicity, and better compatibility with modern WhatsApp 
    - [📦 Sticker Pack](#-sticker-pack)
    - [👤 Contact](#-contact)
    - [🖼️ Album](#%EF%B8%8F-album)
+   - [📊 Poll](#-poll)
+   - [📈 Poll Result](#-poll-result)
    - [🗄️ Interactive](#%EF%B8%8F-interactive)
    - [🎠 Carousel](#-carousel)
    - [🔘 Legacy Button](#-legacy-button)
    - [📋 Legacy List](#-legacy-list)
-   - [📊 Poll](#-poll)
-   - [📈 Poll Result](#-poll-result)
    - [✨ Rich](#-rich)
    - [🗒️ Copy & Forward](#%EF%B8%8F-copy--forward)
    - [🎞️ Status Mention](#%EF%B8%8F-status-mention)
@@ -496,6 +496,52 @@ sock.sendAlbum(jid, [{
 }], m)
 ```
 
+#### 📊 Poll
+
+```javascript
+// --- Regular poll message
+sock.sendPoll(jid, [
+   '✨ Yes', '💀 No'
+], m, {
+   name: '🔥 Is it good?',
+   selectableCount: 1,
+   toAnnouncementGroup: false,
+   endDate: Date.now() + 28_800_000, // Optional
+   hideVoter: false, // Optional
+   canAddOption: false // Optional
+})
+
+// --- Quiz (only for newsletter)
+sock.sendQuiz('1211111111111@newsletter', [
+   '✨ Yes', '💀 No'
+], m, {
+   name: '🔥 Quiz!',
+   correctAnswer: '✨ Yes'
+})
+```
+
+#### 📈 Poll Result
+
+```javascript
+// --- Regular poll result message
+sock.sendPollResult(jid, '📈 Poll Result', [{
+   name: '🔥 Fire',
+   voteCount: 133
+}, {
+   name: '❤️ Love it',
+   voteCount: 18
+}], m)
+
+// --- Quiz result message
+sock.sendQuizResult(jid, '🏆 Quiz Result', [{
+   name: '🔥 Fire',
+   voteCount: 133
+}, {
+   name: '❤️ Love it',
+   voteCount: 18
+}], m)
+```
+
 #### 🗄️ Interactive
 
 ```javascript
@@ -512,8 +558,8 @@ sock.sendInteractive(jid, [{
 }, {
    text: '🌐 Source',
    url: 'https://www.npmjs.com/package/@itsliaaa/starcore',
-   useWebView: true // Optional
-   useWebViewPresentation: null // Optional
+   useWebView: true, // Optional
+   webViewPresentation: null // Optional
 }, {
    text: '📋 Select',
    sections: [{
@@ -649,6 +695,7 @@ sock.sendLegacyButton(jid, [{
 > This message is only works in private chat (`@s.whatsapp.net`)
 
 ```javascript
+// --- Regular legacy list message
 sock.sendLegacyList(jid, [{
    title: '🚀 Menu 1',
    rows: [{
@@ -669,52 +716,30 @@ sock.sendLegacyList(jid, [{
    buttonText: '📋 Select',
    title: '👋🏻 Hello'
 })
-```
 
-#### 📊 Poll
-
-```javascript
-// --- Regular poll message
-sock.sendPoll(jid, [
-   '✨ Yes', '💀 No'
-], m, {
-   name: '🔥 Is it good?',
-   selectableCount: 1,
-   toAnnouncementGroup: false,
-   endDate: Date.now() + 28_800_000, // Optional
-   hideVoter: false, // Optional
-   canAddOption: false // Optional
-})
-
-// --- Quiz (only for newsletter)
-sock.sendQuiz('1211111111111@newsletter', [
-   '✨ Yes', '💀 No'
-], m, {
-   name: '🔥 Quiz!',
-   correctAnswer: '✨ Yes'
-})
-```
-
-#### 📈 Poll Result
-
-```javascript
-// --- Regular poll result message
-sock.sendPollResult(jid, '📈 Poll Result', [{
-   name: '🔥 Fire',
-   voteCount: 133
+// --- Product list message
+client.sendLegacyList(m.chat, [{
+   title: '📄 Section #1',
+   products: [{
+      productId: '177878345044'
+   }, {
+      productId: '607964531532'
+   }]
 }, {
-   name: '❤️ Love it',
-   voteCount: 18
-}], m)
-
-// --- Quiz result message
-sock.sendQuizResult(jid, '🏆 Quiz Result', [{
-   name: '🔥 Fire',
-   voteCount: 133
-}, {
-   name: '❤️ Love it',
-   voteCount: 18
-}], m)
+   title: '📋 Section #2',
+   products: [{
+      productId: '506965808593'
+   }, {
+      productId: '676909529293'
+   }]
+}], m, {
+   text: '🛍️ Product List!',
+   footer: '@itsliaaa/starcore',
+   buttonText: '📋 See Products',
+   image: bufferOrUrl,
+   headerProductId: '656988410262',
+   businessOwnerJid: '0@s.whatsapp.net'
+})
 ```
 
 #### ✨ Rich
@@ -878,7 +903,10 @@ sock.sendCopyMessage(jid, m, {
 
 ```javascript
 sock.sendStatus([jid], {
-   text: '👋🏻 Hello!'
+   text: '👋🏻 Hello!',
+   font: 0,
+   textColor: '#FFFFFF', // Optional
+   backgroundColor: '#FF0000' // Optional
 }, {
    mention: false, // Optional
    closeFriends: {
@@ -895,7 +923,10 @@ sock.sendStatus([jid], {
 
 ```javascript
 sock.sendGroupStatus(jid, {
-   text: '👋🏻 Hello!'
+   text: '👋🏻 Hello!',
+   font: 0,
+   textColor: '#FFFFFF', // Optional
+   backgroundColor: '#000000' // Optional
 }, {
    closeFriends: {
       name: '@itsliaaa/starcore',

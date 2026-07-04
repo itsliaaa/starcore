@@ -15,7 +15,7 @@
       <img src="https://img.shields.io/github/stars/itsliaaa/starcore?style=for-the-badge&logo=github"/>
    </a>
    <a href="LICENSE">
-      <img src="https://img.shields.io/badge/license-AGPL--3.0-blue?style=for-the-badge"/>
+      <img src="https://img.shields.io/badge/license-Apache--2.0-blue?style=for-the-badge"/>
    </a>
    <a href="https://nodejs.org">
       <img src="https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&labelColor=green&logoColor=white&style=for-the-badge"/>

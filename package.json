@@ -1,6 +1,6 @@
 {
    "name": "@itsliaaa/starcore",
-   "version": "0.0.0-alpha.9",
+   "version": "0.0.0-alpha.10",
    "description": "A lightweight yet powerful Baileys wrapper designed to simplify development while extending support for additional message types and WhatsApp features.",
    "main": "./lib/index.js",
    "type": "module",
@@ -38,7 +38,7 @@
    ],
    "homepage": "https://github.com/itsliaaa/starcore#readme",
    "author": "Lia Wynn",
-   "license": "AGPL-3.0-or-later",
+   "license": "Apache-2.0",
    "dependencies": {
       "cheerio": "^1.2.0",
       "chokidar": "^5.0.0",

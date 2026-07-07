@@ -1,7 +1,7 @@
 {
    "name": "@itsliaaa/starcore",
-   "version": "0.0.0-alpha.10",
-   "description": "A lightweight yet powerful Baileys wrapper designed to simplify development while extending support for additional message types and WhatsApp features.",
+   "version": "0.0.0-alpha.11",
+   "description": "A lightweight framework built on top of Baileys for WhatsApp bot development.",
    "main": "./lib/index.js",
    "type": "module",
    "exports": {
@@ -14,7 +14,7 @@
       "lib/**/*"
    ],
    "engines": {
-      "node": ">=20.0.0"
+      "node": ">=20.19.0"
    },
    "repository": {
       "type": "git",
@@ -40,11 +40,10 @@
    "author": "Lia Wynn",
    "license": "Apache-2.0",
    "dependencies": {
-      "cheerio": "^1.2.0",
       "chokidar": "^5.0.0",
       "fflate": "^0.8.3",
-      "file-type": "^22.0.1",
-      "qrcode": "^1.5.4"
+      "lean-qr": "~2.7.2",
+      "magic-bytes.js": "~1.13.0"
    },
    "peerDependencies": {
       "@napi-rs/image": "^1.11.2",

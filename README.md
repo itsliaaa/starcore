@@ -3,7 +3,7 @@
 [![Logo](https://files.catbox.moe/tfi9tr.png)](https://www.npmjs.com/package/@itsliaaa/starcore)
 
 <p align="center">
-   A lightweight yet powerful Baileys wrapper designed to simplify development while extending support for additional message types and WhatsApp features.
+   A lightweight framework built on top of Baileys for WhatsApp bot development.
    <br><br>
    <a href="https://www.npmjs.com/package/@itsliaaa/starcore">
       <img src="https://img.shields.io/npm/v/@itsliaaa/starcore?style=for-the-badge&logo=npm"/>
@@ -139,6 +139,19 @@ import { Client } from '@itsliaaa/starcore'
 
 // --- CJS (tested and working on Node.js 24 ✅)
 const { Client } = require('@itsliaaa/starcore')
+
+// --- If "require()" fails on CJS, you can use a dynamic import (IIFE)
+;(async () => {
+   try {
+      const { Client } = await import('@itsliaaa/starcore')
+      const client = new Client({
+         // ...options
+      })
+   }
+   catch (error) {
+      console.error('❌ Failed to import', ':', error)
+   }
+})()
 ```
 
 ### 📄 Quick Start

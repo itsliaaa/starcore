@@ -2,7 +2,14 @@
    "name": "@itsliaaa/starcore",
    "version": "0.0.0-alpha.12",
    "description": "A lightweight framework built on top of Baileys for WhatsApp bot development.",
-   "exports": "./lib/index.js",
+   "main": "./lib/index.js",
+   "exports": {
+      ".": {
+         "import": "./lib/index.js",
+         "require": "./lib/index.js",
+         "default": "./lib/index.js"
+      }
+   },
    "files": [
       "lib/**/*"
    ],
@@ -12,9 +19,6 @@
    "repository": {
       "type": "git",
       "url": "git+https://github.com/itsliaaa/starcore.git"
-   },
-   "bugs": {
-      "url": "https://github.com/itsliaaa/starcore/issues"
    },
    "funding": {
       "type": "donate",

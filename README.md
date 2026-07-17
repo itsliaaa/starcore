@@ -31,7 +31,6 @@
 
 ### 📌 Highlights
 
-- Improved `createParticipantNodes()` by introducing yielding, preventing potential freezes during participant node generation.
 - Enhanced `relayMessage()` with newsletter support and compatibility for sending additional binary payloads.
 - Adapted `prepareWAMessageMedia()` to support media delivery to newsletters.
 - Added support for sending `stickerPackMessage` through `sendStickerPack()`.
@@ -39,8 +38,6 @@
 - Introduced `newsletterSubscribed()` to retrieve information about all newsletters the account is currently subscribed to.
 - `secretEncryptedMessage` is transparently decrypted into `editedMessage`.
 - `vote` in `pollUpdateMessage` is transparently decrypted to reveal the user's selected poll option(s).
-
-Built with a focus on simplicity, and better compatibility with modern WhatsApp features.
 
 ### 📋 Table of Contents
 
@@ -142,15 +139,10 @@ const { Client } = require('@itsliaaa/starcore')
 
 // --- If "require()" fails on CJS, you can use a dynamic import (IIFE)
 ;(async () => {
-   try {
-      const { Client } = await import('@itsliaaa/starcore')
-      const client = new Client({
-         // ...options
-      })
-   }
-   catch (error) {
-      console.error('❌ Failed to import', ':', error)
-   }
+   const { Client } = await import('@itsliaaa/starcore')
+   const client = new Client({
+      // ...options
+   })
 })()
 ```
 
@@ -193,6 +185,7 @@ const client = new Client({
       pairingCode: true,
       phoneNumber: '6281111111111',
       customCode: 'starcore',
+      maxRestart: 5,
       type: 'json' // 'json' | 'sqlite'
    },
    isBotMessageId: (id) =>
@@ -200,7 +193,7 @@ const client = new Client({
    messageIdPrefix: 'STARCORE',
    watchPath: './plugins', // Default: null
    updatePresence: true, // Default: true
-   updateProtoOnStartup: true, // Default: false
+   updateProtoOnStartup: true, // Default: true
    autoFollowNewsletter: '1211111111111@newsletter', // String | String[] | false
    newsletterAnnotation: {
       newsletterJid: '1211111111111@newsletter',
@@ -467,7 +460,7 @@ sock.sendSticker(jid, bufferOrUrl, m, {
 #### 📦 Sticker Pack
 
 ```javascript
-sock.sendStickerPack = async (jid, [bufferOrUrl, bufferOrUrl], m, {
+sock.sendStickerPack(jid, [bufferOrUrl, bufferOrUrl], m, {
    cover: bufferOrUrl,
    name: '📦 Sticker Pack',
    publisher: 'GitHub: itsliaaa',
@@ -1046,7 +1039,7 @@ const newsletters = await sock.newsletterSubscribed()
 console.dir(newsletters, { depth: null })
 
 // --- Fetch newsletter messages
-const messages = sock.newsletterFetchMessages('jid', '1211111111111@newsletter', 50, 0, 0)
+const messages = await sock.newsletterFetchMessages('jid', '1211111111111@newsletter', 50, 0, 0)
 console.dir(messages, { depth: null })
 
 // --- Delete newsletter

@@ -1,6 +1,6 @@
 {
    "name": "@itsliaaa/starcore",
-   "version": "0.0.0-alpha.12",
+   "version": "0.0.0-alpha.13",
    "description": "A lightweight framework built on top of Baileys for WhatsApp bot development.",
    "main": "./lib/index.js",
    "exports": {

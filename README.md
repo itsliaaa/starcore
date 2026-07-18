@@ -1568,7 +1568,7 @@ const getResult = await someApi('path/to/get', {
    headers: {}
 })
 
-const postResult = await someApi('path/to/post', null, {
+const postResult = await someApi('path/to/post', {
    method: 'POST',
    headers: {
       'Content-Type': 'application/json'

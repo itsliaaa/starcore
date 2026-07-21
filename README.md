@@ -159,6 +159,18 @@ const client = new Client({
    }
 })
 
+client.on('connect', (ctx) => {
+   switch (ctx.type) {
+      case 'pairing':
+         console.log(ctx.prettyCode ?? ctx.asciiQr)
+         break
+
+      case 'close':
+         console.error(ctx.reason)
+         break
+   }
+})
+
 client.on('message', (ctx) => {
    if (ctx.body === 'hello') {
       ctx.m.reply('👋 Hello there!')
@@ -267,6 +279,8 @@ setInterval(async () => {
 ### 📡 Events Reference
 
 ```javascript
+client.on('prepare', console.log)
+client.on('connect', console.log)
 client.on('ready', console.log)
 client.on('message', console.log)
 client.on('message.edit', console.log)

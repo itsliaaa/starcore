@@ -3,7 +3,7 @@
 [![Logo](https://files.catbox.moe/tfi9tr.png)](https://www.npmjs.com/package/@itsliaaa/starcore)
 
 <p align="center">
-   A lightweight framework built on top of Baileys for WhatsApp bot development.
+   A lightweight Baileys wrapper with built-in tools for WhatsApp bot development.
    <br><br>
    <a href="https://www.npmjs.com/package/@itsliaaa/starcore">
       <img src="https://img.shields.io/npm/v/@itsliaaa/starcore?style=for-the-badge&logo=npm"/>

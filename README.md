@@ -476,6 +476,7 @@ sock.sendSticker(jid, bufferOrUrl, m, {
 ```javascript
 sock.sendStickerPack(jid, [bufferOrUrl, bufferOrUrl], m, {
    cover: bufferOrUrl,
+   caption: '🔔 There you go!',
    name: '📦 Sticker Pack',
    publisher: 'GitHub: itsliaaa',
    description: '✨ itsliaaa/starcore'

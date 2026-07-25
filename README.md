@@ -198,7 +198,7 @@ const client = new Client({
       phoneNumber: '6281111111111',
       customCode: 'starcore',
       maxRestart: 5,
-      type: 'json' // 'json' | 'sqlite'
+      type: 'json' // 0 = 'json' | 1 = 'sqlite'
    },
    isBotMessageId: (id) =>
       typeof id === 'string' && id.includes('3EB0'),

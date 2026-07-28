@@ -132,24 +132,16 @@ npm i @itsliaaa/starcore@github:itsliaaa/starcore baileys@7.0.0-rc13
 
 ```javascript
 // --- ESM
-import { Client } from '@itsliaaa/starcore'
+import Client, { Client, Extend } from '@itsliaaa/starcore'
 
-// --- CJS (tested and working on Node.js 24 ✅)
-const { Client } = require('@itsliaaa/starcore')
-
-// --- If "require()" fails on CJS, you can use a dynamic import (IIFE)
-;(async () => {
-   const { Client } = await import('@itsliaaa/starcore')
-   const client = new Client({
-      // ...options
-   })
-})()
+// --- CJS
+const { Client, Extend } = require('@itsliaaa/starcore')
 ```
 
 ### 📄 Quick Start
 
 ```javascript
-import { Client } from '@itsliaaa/starcore'
+import Client from '@itsliaaa/starcore'
 
 const client = new Client({
    auth: {
@@ -189,7 +181,7 @@ const sock = client.sock
 ### ⚙️ Advanced Usage
 
 ```javascript
-import { Client } from '@itsliaaa/starcore'
+import Client from '@itsliaaa/starcore'
 
 const client = new Client({
    auth: {
@@ -739,7 +731,7 @@ sock.sendLegacyList(jid, [{
 })
 
 // --- Product list message
-client.sendLegacyList(m.chat, [{
+sock.sendLegacyList(m.chat, [{
    title: '📄 Section #1',
    products: [{
       productId: '177878345044'

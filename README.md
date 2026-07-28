@@ -132,7 +132,7 @@ npm i @itsliaaa/starcore@github:itsliaaa/starcore baileys@7.0.0-rc13
 
 ```javascript
 // --- ESM
-import Client, { Client, Extend } from '@itsliaaa/starcore'
+import { Client, Extend } from '@itsliaaa/starcore'
 
 // --- CJS
 const { Client, Extend } = require('@itsliaaa/starcore')
@@ -325,6 +325,7 @@ This event is the primary source of incoming messages and includes commonly used
     fromMe: false,
     isBot: false,
     isGroup: true,
+    isPrivate: false,
     type: 'extendedTextMessage',
     msg: ExtendedTextMessage {
       endCardTiles: [],
@@ -344,6 +345,7 @@ This event is the primary source of incoming messages and includes commonly used
       fromMe: false,
       isBot: false,
       isGroup: true,
+      isPrivate: false,
       type: 'conversation',
       body: '@itsliaaa/starcore',
       pushName: '‏liaaa',

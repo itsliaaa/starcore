@@ -49,7 +49,7 @@
 - [📄 Quick Start](#-quick-start)
 - [⚙️ Advanced Usage](#%EF%B8%8F-advanced-usage)
    - [🧳 Environments](#-environments)
-   - [🗄️ Managing Store](#%EF%B8%8F-store-data)
+   - [🗄️ Managing Store](#%EF%B8%8F-managing-store)
    - [🗑️ Temporary Folder](#%EF%B8%8F-temporary-folder)
 - [📡 Events Reference](#-events-reference)
    - [📄 Message Event Metadata](#-message-event-metadata)
@@ -215,9 +215,13 @@ const client = new Client({
 
 The following environment variables are used by default. Override them with [`dotenv`](https://www.npmjs.com/package/dotenv) when needed.
 
+> **Environment variables take priority over the [global configuration](#-global-config).**
+
 ```ini
 # .env
 FFMPEG_PATH="ffmpeg"
+FFMPEG_TIMEOUT="90000"
+REQUEST_TIMEOUT="60000"
 TEMPORARY_PATH="temp"
 TZ="Asia/Jakarta"
 ```
@@ -1588,6 +1592,37 @@ const postResult = await someApi('path/to/post', {
 })
 ```
 
+### 🔧 Global Config
+
+```javascript
+import { getGlobalConfig, setGlobalConfig } from '@itsliaaa/starcore'
+
+const myConfig = getGlobalConfig()
+
+setGlobalConfig({
+   // FFmpeg executable binary path
+   ffmpegPath: 'ffmpeg',
+
+   // FFmpeg execution timeout (ms)
+   ffmpegTimeout: 90_000,
+
+   // Shared cache instance
+   cache: createCache(),
+
+   // Logger instance (e.g. pino())
+   logger: LOGGER,
+
+   // Default request timeout (ms)
+   requestTimeout: 60_000,
+
+   // Temporary directory
+   temporaryPath: 'temp',
+
+   // Time zone
+   timezone: 'Asia/Jakarta'
+})
+```
+
 ### 📚 Exported Modules
 
 ```javascript
@@ -1598,7 +1633,9 @@ import {
    Request,
    Scraper,
    Utilities,
-   Watcher
+   Watcher,
+   getGlobalConfig,
+   setGlobalConfig
 } from '@itsliaaa/starcore'
 ```
 

@@ -91,6 +91,7 @@
    - [📎 SQLite](#-sqlite)
 - [🧩 Extend](#-extend)
 - [🌐 Request](#-request)
+- [🔧 Global Config](#-global-config)
 - [📚 Exported Modules](#-exported-modules)
 - [🚀 Try the Bot](#-try-the-bot)
 - [📣 Credits](#-credits)

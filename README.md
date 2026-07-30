@@ -71,6 +71,7 @@
    - [🔘 Legacy Button](#-legacy-button)
    - [📋 Legacy List](#-legacy-list)
    - [✨ Rich](#-rich)
+   - [🛍️ Order](#%EF%B8%8F-order)
    - [🗒️ Copy & Forward](#%EF%B8%8F-copy--forward)
    - [🎞️ Status Mention](#%EF%B8%8F-status-mention)
    - [👥 Group Status](#-group-status)
@@ -444,7 +445,7 @@ sock.sendReact(jid, '✨', m.key)
 #### 📂 Media
 
 ```javascript
-sock.sendMedia(jid, bufferOrUrl, m, {
+sock.sendMedia(jid, bufferOrUrl, '📦 Media!', m, {
    mime: 'image/jpeg', // Optional, will automatically detect the mime
    document: false, // Optional, force send as document
    ptv: false, // Optional, force send as PTV
@@ -739,7 +740,7 @@ sock.sendLegacyList(jid, [{
 })
 
 // --- Product list message
-sock.sendLegacyList(m.chat, [{
+sock.sendLegacyList(jid, [{
    title: '📄 Section #1',
    products: [{
       productId: '177878345044'
@@ -906,6 +907,12 @@ sock.sendRich(jid, [{
    notify: false, // Optional
    disclaimerText: 'Example Usage of sendRich()'
 })
+```
+
+#### 🛍️ Order
+
+```javascript
+sock.sendOrderMessage(jid, bufferOrUrl, '🛍️ Order Message!', m)
 ```
 
 #### 🗒️ Copy & Forward

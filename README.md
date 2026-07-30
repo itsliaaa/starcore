@@ -109,13 +109,13 @@
 # NPM
 "dependencies": {
    "@itsliaaa/starcore": "latest",
-   "baileys": "^7.0.0-rc13"
+   "baileys": "^7.0.0-rc14"
 }
 
 # GitHub
 "dependencies": {
    "@itsliaaa/starcore": "github:itsliaaa/starcore",
-   "baileys": "^7.0.0-rc13"
+   "baileys": "^7.0.0-rc14"
 }
 ```
 
@@ -123,10 +123,10 @@
 
 ```bash
 # NPM
-npm i @itsliaaa/starcore@latest baileys@7.0.0-rc13
+npm i @itsliaaa/starcore@latest baileys@7.0.0-rc14
 
 # GitHub
-npm i @itsliaaa/starcore@github:itsliaaa/starcore baileys@7.0.0-rc13
+npm i @itsliaaa/starcore@github:itsliaaa/starcore baileys@7.0.0-rc14
 ```
 
 #### 🧩 Import (ESM & CJS)
@@ -289,6 +289,7 @@ client.on('group.promote', console.log)
 client.on('group.demote', console.log)
 client.on('group.remove', console.log)
 client.on('group.request', console.log)
+client.on('group.update', console.log)
 client.on('label.update', console.log)
 client.on('caller', console.log)
 client.on('presence', console.log)
@@ -1608,7 +1609,7 @@ setGlobalConfig({
    ffmpegTimeout: 90_000,
 
    // Shared cache instance
-   cache: createCache(),
+   cache: Utilities.createCache(),
 
    // Logger instance (e.g. pino())
    logger: LOGGER,

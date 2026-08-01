@@ -1604,7 +1604,7 @@ const postResult = await someApi('path/to/post', {
 ### 🔧 Global Config
 
 ```javascript
-import { getGlobalConfig, setGlobalConfig } from '@itsliaaa/starcore'
+import { Utilities, getGlobalConfig, setGlobalConfig } from '@itsliaaa/starcore'
 
 const myConfig = getGlobalConfig()
 

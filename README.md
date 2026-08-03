@@ -221,11 +221,12 @@ The following environment variables are used by default. Override them with [`do
 
 ```ini
 # .env
-FFMPEG_PATH="ffmpeg"
-FFMPEG_TIMEOUT="90000"
-REQUEST_TIMEOUT="60000"
-TEMPORARY_PATH="temp"
-TZ="Asia/Jakarta"
+FFMPEG_PATH=ffmpeg
+FFMPEG_CONCURRENCY=4
+FFMPEG_TIMEOUT=90000
+REQUEST_TIMEOUT=60000
+TEMPORARY_PATH=temp
+TZ=Asia/Jakarta
 ```
 
 #### 🗄️ Managing Store
@@ -283,6 +284,7 @@ client.on('ready', console.log)
 client.on('message', console.log)
 client.on('message.edit', console.log)
 client.on('message.delete', console.log)
+client.on('message.stub', console.log)
 client.on('poll', console.log)
 client.on('status', console.log)
 client.on('group.add', console.log)
@@ -1611,6 +1613,9 @@ const myConfig = getGlobalConfig()
 setGlobalConfig({
    // FFmpeg executable binary path
    ffmpegPath: 'ffmpeg',
+
+   // FFmpeg concurrent
+   ffmpegConcurrency: 4,
 
    // FFmpeg execution timeout (ms)
    ffmpegTimeout: 90_000,

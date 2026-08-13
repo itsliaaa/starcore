@@ -787,6 +787,15 @@ sock.sendRich(jid, [{
       items: ['Performance', '4/5', '5/5', '4/5']
    }]
 }, {
+   extWidget: [{
+      title: '📋 Section 1',
+      buttons: ['menu', 'label', 'infos']
+   }, {
+      title: '📄 Section 2',
+      buttons: ['gif', 'runtime', 'order']
+   }],
+   canScroll: false
+}, {
    video: 'https://path-to-video.com/',
    thumbnailUrl: 'https://path-to-tiny-image.com/',
    mime: 'video/mp4',
@@ -902,7 +911,15 @@ sock.sendRich(jid, [{
 }, {
    tip: '@itsliaaa/starcore'
 }, {
-   foaText: '# LARGE Text'
+   foaText: '# 🔥 LARGE Text'
+}, {
+   actionUrls: [{
+      text: '💰 Donate Me!',
+      url: 'https://saweria.co/itsliaaa'
+   }, {
+      text: '🌐 Google',
+      url: 'https://www.google.com/'
+   }]
 }, {
    searchResults: [{
       displayName: 'Simple Baileys Wrapper',
@@ -913,7 +930,7 @@ sock.sendRich(jid, [{
 }], m, {
    notify: false, // Optional
    disclaimerText: 'Example Usage of sendRich()',
-   streamText: false
+   streamText: false // Stream style, like Meta AI response
 })
 ```
 

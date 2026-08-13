@@ -796,6 +796,9 @@ sock.sendRich(jid, [{
    image: 'https://path-to-image.com/',
    mime: 'image/jpeg'
 }, {
+   imagine: 'https://path-to-image.com/',
+   mime: 'image/jpeg'
+}, {
    reels: [{
       reelUrl: 'https://path-to-web.com/',
       thumbnailUrl: 'https://path-to-image.com/',
@@ -899,6 +902,8 @@ sock.sendRich(jid, [{
 }, {
    tip: '@itsliaaa/starcore'
 }, {
+   foaText: '# LARGE Text'
+}, {
    searchResults: [{
       displayName: 'Simple Baileys Wrapper',
       sourceUrl: 'https://path-to-web.com/',
@@ -907,7 +912,8 @@ sock.sendRich(jid, [{
    }]
 }], m, {
    notify: false, // Optional
-   disclaimerText: 'Example Usage of sendRich()'
+   disclaimerText: 'Example Usage of sendRich()',
+   streamText: false
 })
 ```
 

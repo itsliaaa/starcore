@@ -39,19 +39,14 @@
    "author": "Lia Wynn",
    "license": "Apache-2.0",
    "dependencies": {
-      "awesome-phonenumber": "^7.8.0",
       "lean-qr": "~2.7.2",
       "magic-bytes.js": "^1.13.1"
    },
    "peerDependencies": {
-      "@napi-rs/image": "^1.11.2",
-      "better-sqlite3": "^13.0.0"
+      "@napi-rs/image": "^1.11.2"
    },
    "peerDependenciesMeta": {
       "@napi-rs/image": {
-         "optional": true
-      },
-      "better-sqlite3": {
          "optional": true
       }
    },

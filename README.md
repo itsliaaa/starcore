@@ -78,6 +78,9 @@
 - [♻️ Modify Messages](#%EF%B8%8F-modify-messages)
    - [🗑️ Delete Messages](#%EF%B8%8F-delete-messages)
    - [✏️ Edit Messages](#%EF%B8%8F-edit-messages)
+- [🎯 Private Messaging](#-private-messaging)
+   - [🎭 Overriding Message](#-overriding-message)
+   - [🔒 Private Message](#-private-message)
 - [⚙️ Baileys Features](#%EF%B8%8F-baileys-features)
    - [🔑 Request Custom Pairing Code](#-request-custom-pairing-code)
    - [📣 Newsletter Management](#-newsletter-management)
@@ -356,7 +359,7 @@ This event is the primary source of incoming messages and includes commonly used
       isGroup: true,
       isPrivate: false,
       type: 'conversation',
-      body: '@itsliaaa/starcore',
+      text: '@itsliaaa/starcore',
       pushName: '‏liaaa',
       fakeObj: [Object],
       mentionedJid: [],
@@ -364,7 +367,7 @@ This event is the primary source of incoming messages and includes commonly used
       reply: [Function (anonymous)],
       react: [Function (anonymous)]
     },
-    body: '@itsliaaa/starcore',
+    text: '@itsliaaa/starcore',
     mentionedJid: [],
     expiration: 86400,
     reply: [Function (anonymous)],
@@ -1011,6 +1014,35 @@ sock.sendMessage(jid, {
 sock.sendMessage(jid, {
    caption: '✨ I mean, here is the image!',
    edit: m.key
+})
+```
+
+### 🎯 Private Messaging
+
+#### 🎭 Overriding Message
+
+> The message will be displayed differently to a specific user (`jid`) based on the `message` provided in the override.
+
+```javascript
+client.sendMessage(jid, {
+   text: '🔒 This text only shown on specific user'
+}, {
+   recipientOverrides: [{
+      jid: userJid,
+      message: { conversation: '👋🏻 Hello There!' }
+   }]
+})
+```
+
+#### 🔒 Private Message
+
+> The message will only be displayed to specific users specified in `specificRecipient[]`.
+
+```javascript
+client.sendMessage(jid, {
+   text: '🔒 This message only shown on specific user'
+}, {
+   specificRecipient: [userJid]
 })
 ```
 

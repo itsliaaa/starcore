@@ -1019,12 +1019,15 @@ sock.sendMessage(jid, {
 
 ### 🎯 Private Messaging
 
+> [!NOTE]
+> This is not limited to the `sendMessage()` function. It is also available to all message-sending functions previously mentioned in [📨 Sending Messages](#-sending-messages).
+
 #### 🎭 Overriding Message
 
 > The message will be displayed differently to a specific user (`jid`) based on the `message` provided in the override.
 
 ```javascript
-client.sendMessage(jid, {
+sock.sendMessage(jid, {
    text: '🔒 This text only shown on specific user'
 }, {
    recipientOverrides: [{
@@ -1039,7 +1042,7 @@ client.sendMessage(jid, {
 > The message will only be displayed to specific users specified in `specificRecipient[]`.
 
 ```javascript
-client.sendMessage(jid, {
+sock.sendMessage(jid, {
    text: '🔒 This message only shown on specific user'
 }, {
    specificRecipient: [userJid]

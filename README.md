@@ -38,6 +38,9 @@
 - Introduced `newsletterSubscribed()` to retrieve information about all newsletters the account is currently subscribed to.
 - `secretEncryptedMessage` is transparently decrypted into `editedMessage`.
 - `vote` in `pollUpdateMessage` is transparently decrypted to reveal the user's selected poll option(s).
+- Automatically retry group messages on participant hash mismatch.
+- Support `streamingSidecar` for video, audio, PTT, and PTV messages.
+- Support `firstFrameLength` and `firstFrameSidecar` for animated stickers.
 
 ### 📋 Table of Contents
 

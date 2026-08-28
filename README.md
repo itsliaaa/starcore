@@ -206,12 +206,12 @@ const client = new Client({
    watchPath: './plugins', // Default: null
    updatePresence: true, // Default: true
    updateProtoOnStartup: true, // Default: true
-   autoFollowNewsletter: '1211111111111@newsletter', // String | String[] | false
+   autoFollowNewsletter: '1211111111111@newsletter', // String | String[] | false, Default: false
    newsletterAnnotation: {
       newsletterJid: '1211111111111@newsletter',
       newsletterName: '@itsliaaa/starcore',
       contentType: 1
-   } // IForwardedNewsletterMessageInfo | false
+   } // IForwardedNewsletterMessageInfo | false, Default: false
 }, {
    // Baileys socket configuration
    shouldIgnoreJid: (jid) =>
@@ -1758,6 +1758,7 @@ import {
    Extend,
    Request,
    Scraper,
+   Serialize,
    Utilities,
    Watcher,
    getGlobalConfig,

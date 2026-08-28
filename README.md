@@ -574,7 +574,52 @@ sock.sendQuizResult(jid, '🏆 Quiz Result', [{
 
 #### 🗄️ Interactive
 
+> [!NOTE]
+> Please read the A2UI [v0.9 component documentation](https://a2ui.org/reference/components/) before using the `components[]` field.
+
 ```javascript
+const components = [{
+   id: 'root',
+   component: 'Column',
+   children: [
+      'portfolio_header',
+      'profile_card'
+   ]
+}, {
+   id: 'portfolio_header',
+   component: 'Text',
+   text: 'Giant Panda Portfolio',
+   variant: 'h1'
+}, {
+   id: 'profile_card',
+   component: 'Card',
+   child: 'profile_content'
+}, {
+   id: 'profile_content',
+   component: 'Column',
+   children: [
+      'profile_image',
+      'profile_bio',
+      'profile_meta'
+   ]
+}, {
+   id: 'profile_image',
+   component: 'Image',
+   url: 'https://files.catbox.moe/ms64an.jpeg',
+   variant: 'header',
+   fit: 'cover'
+}, {
+   id: 'profile_bio',
+   component: 'Text',
+   text: 'Professional bamboo expert, advanced napping practitioner, and forest cuteness ambassador.',
+    variant: 'body'
+}, {
+   id: 'profile_meta',
+   component: 'Text',
+   text: 'Status: Active • Location: Bamboo Forest',
+   variant: 'caption'
+}]
+
 sock.sendInteractive(jid, [{
    text: '👋🏻 Greeting',
    id: '#Greeting',
@@ -612,6 +657,7 @@ sock.sendInteractive(jid, [{
    }],
    icon: 'default' // Optional
 }], m, {
+   components: components, // Optional widget
    media: bufferOrUrl,
    caption: '🗄️ Interactive Message',
    footer: '@itsliaaa/starcore',
@@ -1022,12 +1068,17 @@ sock.sendMessage(jid, {
 
 ### 🎯 Private Messaging
 
+> [!CAUTION]
+> **Experimental Features**: `recipientOverrides` and `specificRecipient` are still experimental and **strongly discouraged for continuous or frequent use**. These features may cause session instability or potentially break/corrupt the Baileys session, especially when used excessively.
+>
+> Please use these features only when necessary and **at your own risk**. If these features are found to cause widespread or significant issues, they may be removed or withdrawn in a future release.
+
 > [!NOTE]
 > This is not limited to the `sendMessage()` function. It is also available to all message-sending functions previously mentioned in [📨 Sending Messages](#-sending-messages).
 
 #### 🎭 Overriding Message
 
-> The message will be displayed differently to a specific user (`jid`) based on the `message` provided in the override.
+The message will be displayed differently to a specific user (`jid`) based on the `message` provided in the override.
 
 ```javascript
 sock.sendMessage(jid, {
@@ -1042,7 +1093,7 @@ sock.sendMessage(jid, {
 
 #### 🔒 Private Message
 
-> The message will only be displayed to specific users specified in `specificRecipient[]`.
+The message will only be displayed to specific users specified in `specificRecipient[]`.
 
 ```javascript
 sock.sendMessage(jid, {

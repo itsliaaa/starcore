@@ -43,13 +43,16 @@
       "magic-bytes.js": "^1.13.1"
    },
    "peerDependencies": {
-      "@napi-rs/image": "^1.11.2"
+      "@napi-rs/image": "^1.11.2",
+      "better-sqlite3": "^13.0.0"
    },
    "peerDependenciesMeta": {
       "@napi-rs/image": {
          "optional": true
+      },
+      "better-sqlite3": {
+         "optional": true
       }
    },
-   "packageManager": "yarn@1.22.22",
    "sideEffects": false
 }

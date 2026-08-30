@@ -31,16 +31,17 @@
 
 ### 📌 Highlights
 
-- Enhanced `relayMessage()` with newsletter support and compatibility for sending additional binary payloads.
-- Adapted `prepareWAMessageMedia()` to support media delivery to newsletters.
-- Added support for sending `stickerPackMessage` through `sendStickerPack()`.
-- Extended support for multiple interactive and button-based message types.
-- Introduced `newsletterSubscribed()` to retrieve information about all newsletters the account is currently subscribed to.
-- `secretEncryptedMessage` is transparently decrypted into `editedMessage`.
-- `vote` in `pollUpdateMessage` is transparently decrypted to reveal the user's selected poll option(s).
-- Automatically retry group messages on participant hash mismatch.
-- Support `streamingSidecar` for video, audio, PTT, and PTV messages.
-- Support `firstFrameLength` and `firstFrameSidecar` for animated stickers.
+- 🚫 No auto-follow channel (newsletter) behavior.
+- 📡 Enhanced `relayMessage()` with newsletter support and compatibility for sending additional binary payloads.
+- 🖼️ Adapted `prepareWAMessageMedia()` to support media delivery to newsletters.
+- 🧩 Added support for sending `stickerPackMessage` through `sendStickerPack()`.
+- 🎛️ Extended support for multiple interactive and button-based message types.
+- 📰 Introduced `newsletterSubscribed()` to retrieve information about all newsletters the account is currently subscribed to.
+- 🔓 `secretEncryptedMessage` is transparently decrypted into `editedMessage`.
+- 🗳️ `vote` in `pollUpdateMessage` is transparently decrypted to reveal the user's selected poll option(s).
+- 🔁 Automatically retry group messages on participant hash mismatch.
+- 🎥 Support `streamingSidecar` for video, audio, PTT, and PTV messages.
+- 🎞️ Support `firstFrameLength` and `firstFrameSidecar` for animated stickers.
 
 ### 📋 Table of Contents
 
@@ -206,7 +207,6 @@ const client = new Client({
    watchPath: './plugins', // Default: null
    updatePresence: true, // Default: true
    updateProtoOnStartup: true, // Default: true
-   autoFollowNewsletter: '1211111111111@newsletter', // String | String[] | false, Default: false
    newsletterAnnotation: {
       newsletterJid: '1211111111111@newsletter',
       newsletterName: '@itsliaaa/starcore',
@@ -1625,7 +1625,7 @@ await db.write({
 #### 📎 SQLite
 
 > [!IMPORTANT]
-> [`better-sqlite3@>=12.2.0`](https://www.npmjs.com/package/better-sqlite3) is a peer dependency. You must install it manually and add it to your project's `package.json`.
+> [`better-sqlite3@>=13.0.0`](https://www.npmjs.com/package/better-sqlite3) is a peer dependency. You must install it manually and add it to your project's `package.json`.
 
 ```javascript
 import { Database } from '@itsliaaa/starcore'
@@ -1662,7 +1662,7 @@ const sock = makeWASocket({ ... })
 await Extend(sock, {
    messageIdPrefix: 'STARCORE',
    updatePresence: true, // Default: true
-   autoFollowNewsletter: '1211111111111@newsletter', // String | String[] | false
+   updateProtoOnStartup: true, // Default: true
    newsletterAnnotation: {
       newsletterJid: '1211111111111@newsletter',
       newsletterName: '@itsliaaa/starcore',

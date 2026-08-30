@@ -848,6 +848,9 @@ sock.sendRich(jid, [{
    }],
    canScroll: false
 }, {
+   htmlPayload: `<h1>✨ @itsliaaa/starcore</h1><p>A lightweight Baileys wrapper designed to make WhatsApp bot development simpler, cleaner, and more flexible.</p>`,
+   trustedSources: ['https://github.com/itsliaaa/starcore']
+}, {
    video: 'https://path-to-video.com/',
    thumbnailUrl: 'https://path-to-tiny-image.com/',
    mime: 'video/mp4',

@@ -482,6 +482,8 @@ sock.sendSticker(jid, bufferOrUrl, m, {
 
 #### 📦 Sticker Pack
 
+ZIP compression is built into `sendStickerPack()`, no extra dependencies required ✨
+
 ```javascript
 sock.sendStickerPack(jid, [bufferOrUrl, bufferOrUrl], m, {
    cover: bufferOrUrl,

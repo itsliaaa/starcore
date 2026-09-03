@@ -40,8 +40,6 @@
 - 🔓 `secretEncryptedMessage` is transparently decrypted into `editedMessage`.
 - 🗳️ `vote` in `pollUpdateMessage` is transparently decrypted to reveal the user's selected poll option(s).
 - 🔁 Automatically retry group messages on participant hash mismatch.
-- 🎥 Support `streamingSidecar` for video, audio, PTT, and PTV messages.
-- 🎞️ Support `firstFrameLength` and `firstFrameSidecar` for animated stickers.
 
 ### 📋 Table of Contents
 
@@ -200,6 +198,12 @@ const client = new Client({
       customCode: 'starcore',
       maxRestart: 5,
       type: 'json' // 0 = 'json' | 1 = 'sqlite'
+   },
+   linkPreview: {
+      enabled: true,
+      fetchTimeoutMs: 100,
+      thumbnailWidth: 192,
+      uploadHqThumbnail: true
    },
    isBotMessageId: (id) =>
       typeof id === 'string' && id.includes('3EB0'),

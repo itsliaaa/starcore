@@ -1,6 +1,6 @@
 {
    "name": "@itsliaaa/starcore",
-   "version": "0.0.0-alpha.32",
+   "version": "0.0.0-alpha.33",
    "description": "A lightweight Baileys wrapper with built-in tools for WhatsApp bot development.",
    "main": "./lib/index.js",
    "exports": {
@@ -39,7 +39,7 @@
    "author": "Lia Wynn",
    "license": "Apache-2.0",
    "dependencies": {
-      "lean-qr": "~2.7.2",
+      "lean-qr": "^2.7.3",
       "magic-bytes.js": "^1.13.1"
    },
    "peerDependencies": {

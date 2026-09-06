@@ -3,7 +3,7 @@
 [![Logo](https://files.catbox.moe/tfi9tr.png)](https://www.npmjs.com/package/@itsliaaa/starcore)
 
 <p align="center">
-   A lightweight Baileys wrapper with built-in tools for WhatsApp bot development.
+   A Baileys wrapper with built-in tools for WhatsApp bot development.
    <br><br>
    <a href="https://www.npmjs.com/package/@itsliaaa/starcore">
       <img src="https://img.shields.io/npm/v/@itsliaaa/starcore?style=for-the-badge&logo=npm"/>
@@ -80,9 +80,6 @@
 - [♻️ Modify Messages](#%EF%B8%8F-modify-messages)
    - [🗑️ Delete Messages](#%EF%B8%8F-delete-messages)
    - [✏️ Edit Messages](#%EF%B8%8F-edit-messages)
-- [🎯 Private Messaging](#-private-messaging)
-   - [🎭 Overriding Message](#-overriding-message)
-   - [🔒 Private Message](#-private-message)
 - [⚙️ Baileys Features](#%EF%B8%8F-baileys-features)
    - [🔑 Request Custom Pairing Code](#-request-custom-pairing-code)
    - [📣 Newsletter Management](#-newsletter-management)
@@ -345,6 +342,8 @@ This event is the primary source of incoming messages and includes commonly used
     isBot: false,
     isGroup: true,
     isPrivate: false,
+    isBroadcast: false,
+    isNewsletter: false,
     type: 'extendedTextMessage',
     msg: ExtendedTextMessage {
       endCardTiles: [],
@@ -365,6 +364,8 @@ This event is the primary source of incoming messages and includes commonly used
       isBot: false,
       isGroup: true,
       isPrivate: false,
+      isBroadcast: false,
+      isNewsletter: false,
       type: 'conversation',
       text: '@itsliaaa/starcore',
       pushName: '‏liaaa',
@@ -854,7 +855,7 @@ sock.sendRich(jid, [{
    }],
    canScroll: false
 }, {
-   htmlPayload: `<h1>✨ @itsliaaa/starcore</h1><p>A lightweight Baileys wrapper designed to make WhatsApp bot development simpler, cleaner, and more flexible.</p>`,
+   htmlPayload: `<h1>✨ @itsliaaa/starcore</h1><p>A Baileys wrapper designed to make WhatsApp bot development simpler, cleaner, and more flexible.</p>`,
    trustedSources: ['https://github.com/itsliaaa/starcore']
 }, {
    video: 'https://path-to-video.com/',
@@ -883,7 +884,7 @@ sock.sendRich(jid, [{
    }]
 }, {
    posts: [{
-      caption: 'Lightweight Baileys Wrapper',
+      caption: 'A Baileys Wrapper',
       title: '',
       subtitle: '',
       creator: 'Lia Wynn',
@@ -1612,7 +1613,7 @@ sock.ev.on('settings.update', console.log)
 
 Including two built-in database backends to fit different use cases:
 
-- **JSON**: A lightweight solution for small projects and straightforward data storage.
+- **JSON**: A simple solution for small projects and straightforward data storage.
 - **SQLite**: Powered by `better-sqlite3`, delivering high performance, low overhead, and a hassle-free experience.
 
 #### 📎 JSON
@@ -1777,7 +1778,7 @@ import {
 
 ### 🚀 Try the Bot
 
-A fast, lightweight, and modular WhatsApp bot built with [@itsliaaa/baileys](https://www.npmjs.com/package/@itsliaaa/baileys).
+A fast, and modular WhatsApp bot built with [@itsliaaa/baileys](https://www.npmjs.com/package/@itsliaaa/baileys).
 Perfect for managing groups, moderating chats, and adding fun with quiz games and handy tools.
 
 👉🏻 [@itsliaaa/starseed](https://github.com/itsliaaa/starseed#readme)

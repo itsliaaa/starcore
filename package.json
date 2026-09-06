@@ -1,7 +1,7 @@
 {
    "name": "@itsliaaa/starcore",
    "version": "0.0.0-alpha.33",
-   "description": "A lightweight Baileys wrapper with built-in tools for WhatsApp bot development.",
+   "description": "A Baileys wrapper with built-in tools for WhatsApp bot development.",
    "main": "./lib/index.js",
    "exports": {
       ".": {

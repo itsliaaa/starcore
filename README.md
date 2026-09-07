@@ -1658,7 +1658,7 @@ db.close()
 If you prefer not to use the `Client` wrapper but still want the additional features provided by this package, you can use `Extend`.
 
 > [!TIP]
-> `sock` is used as the Baileys socket instance throughout this example. If your project uses a different variable name (e.g. `conn` or `client`), replace `sock` with your own variable name.
+> `waSocket` is used as the Baileys socket instance throughout this example. If your project uses a different variable name (e.g. `conn` or `client`), replace `waSocket` with your own variable name.
 
 > [!CAUTION]
 > Your Baileys instance must be extensible and writable, as `Extend` attaches additional methods to the instance.
@@ -1667,9 +1667,9 @@ If you prefer not to use the `Client` wrapper but still want the additional feat
 import { Extend } from '@itsliaaa/starcore'
 import { makeWASocket } from 'baileys'
 
-const sock = makeWASocket({ ... })
+const waSocket = makeWASocket({ ... })
 
-await Extend(sock, {
+const sock = await Extend(waSocket, {
    messageIdPrefix: 'STARCORE',
    updatePresence: true, // Default: true
    updateProtoOnStartup: true, // Default: true

@@ -1076,43 +1076,6 @@ sock.sendMessage(jid, {
 })
 ```
 
-### 🎯 Private Messaging
-
-> [!CAUTION]
-> **Experimental Features**: `recipientOverrides` and `specificRecipient` are still experimental and **strongly discouraged for continuous or frequent use**. These features may cause session instability or potentially break/corrupt the Baileys session, especially when used excessively.
->
-> Please use these features only when necessary and **at your own risk**. If these features are found to cause widespread or significant issues, they may be removed or withdrawn in a future release.
-
-> [!NOTE]
-> This is not limited to the `sendMessage()` function. It is also available to all message-sending functions previously mentioned in [📨 Sending Messages](#-sending-messages).
-
-#### 🎭 Overriding Message
-
-The message will be displayed differently to a specific user (`jid`) based on the `message` provided in the override.
-
-```javascript
-sock.sendMessage(jid, {
-   text: '🔒 This text only shown on specific user'
-}, {
-   recipientOverrides: [{
-      jid: userJid,
-      message: { conversation: '👋🏻 Hello There!' }
-   }]
-})
-```
-
-#### 🔒 Private Message
-
-The message will only be displayed to specific users specified in `specificRecipient[]`.
-
-```javascript
-sock.sendMessage(jid, {
-   text: '🔒 This message only shown on specific user'
-}, {
-   specificRecipient: [userJid]
-})
-```
-
 ### ⚙️ Baileys Features
 
 #### 🔑 Request Custom Pairing Code

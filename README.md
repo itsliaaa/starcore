@@ -90,14 +90,14 @@ const DEFAULT_CONFIG = {
   pairingCode: null,
   reconnect: {
     enabled: true,
-    maxAttempts: 5,
-    delayMs: 1000,
+    maxAttempts: 10,
+    delayMs: 3000,
     resetAfterReconnectMs: 30000
   },
   linkPreview: {
     enabled: true,
-    timeoutMs: 500,
-    uploadHqThumbnail: true
+    timeoutMs: 1000,
+    uploadHqThumbnail: false
   },
   message: {
     autoRead: false,
@@ -107,7 +107,7 @@ const DEFAULT_CONFIG = {
     newsletterAnnotation: null
   },
   media: {
-    timeoutMs: 30000,
+    timeoutMs: 60000,
     detectDuration: true,
     generateThumbnail: true,
     generateWaveform: true,

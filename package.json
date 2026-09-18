@@ -9,15 +9,10 @@
          "require": "./lib/index.js"
       }
    },
-   "allowScripts": {
-      "baileys": true,
-      "protobufjs": true
-   },
    "files": [
       "lib/**/*"
    ],
    "engines": {
-      "bun": ">=1.2",
       "node": ">=20"
    },
    "repository": {
@@ -44,16 +39,22 @@
    "author": "Lia Wynn",
    "license": "Apache-2.0",
    "dependencies": {
-      "baileys": "^7.0.0-rc14",
-      "magic-bytes.js": "^1.13.1",
-      "qr": "^0.7.0"
+      "baileys": "^7.0.0-rc14"
    },
    "peerDependencies": {
-      "better-sqlite3": ">=11.0.0",
+      "better-sqlite3": ">=11",
+      "file-type": "^21",
+      "qr": "^0.7.0",
       "sharp": ">=0.33.3"
    },
    "peerDependenciesMeta": {
       "better-sqlite3": {
+         "optional": true
+      },
+      "file-type": {
+         "optional": true
+      },
+      "qr": {
          "optional": true
       },
       "sharp": {

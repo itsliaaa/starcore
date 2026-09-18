@@ -33,9 +33,18 @@ This project is still in development and may contain bugs or incomplete features
 
 ### ⚡ Quick Start
 
+1. Install the packages
+
+```bash
+npm i @itsliaaa/starcore qr file-type
+```
+
+2. Create the client, store and handle events
+
 ```javascript
 import Client, { createSqliteStore } from '@itsliaaa/starcore'
 
+/* createSqliteStore is compatible with bun:sqlite, node:sqlite, and better-sqlite3 */
 const store = createSqliteStore()
 
 const client = new Client({
@@ -67,42 +76,46 @@ client.on('message', (m) => {
 await client.connect()
 ```
 
+> 📕 Note: If no `store` is provided, the client automatically fallback to in-memory store. The in-memory store is not persistent and will be cleared when the process exits.
+
+Run the script and scan the QR code displayed in your terminal. Once the client is paired, incoming messages containing `ping` will receive a `🏓 *Pong!*` reply.
+
 ### ⚙️ Configurations
 
 ```javascript
 const DEFAULT_CONFIG = {
-   store: null,
-   sessionId: null,
-   phoneNumber: null,
-   pairingCode: null,
-   reconnect: {
-      enabled: true,
-      maxAttempts: 5,
-      delayMs: 1000,
-      resetAfterReconnectMs: 30000
-   },
-   linkPreview: {
-      enabled: true,
-      timeoutMs: 500,
-      uploadHqThumbnail: true
-   },
-   message: {
-      autoRead: false,
-      updatePresence: false,
-      decryptAddon: true,
-      messageIdPrefix: 'STARCORE',
-      newsletterAnnotation: null
-   },
-   media: {
-      timeoutMs: 30000,
-      detectDuration: true,
-      generateThumbnail: true,
-      generateWaveform: true,
-      normalizeAudio: true,
-      ffmpegPath: 'ffmpeg',
-      ffprobePath: 'ffprobe',
-      cache: null
-   }
+  store: null,
+  sessionId: null,
+  phoneNumber: null,
+  pairingCode: null,
+  reconnect: {
+    enabled: true,
+    maxAttempts: 5,
+    delayMs: 1000,
+    resetAfterReconnectMs: 30000
+  },
+  linkPreview: {
+    enabled: true,
+    timeoutMs: 500,
+    uploadHqThumbnail: true
+  },
+  message: {
+    autoRead: false,
+    updatePresence: false,
+    decryptAddon: true,
+    messageIdPrefix: 'STARCORE',
+    newsletterAnnotation: null
+  },
+  media: {
+    timeoutMs: 30000,
+    detectDuration: true,
+    generateThumbnail: true,
+    generateWaveform: true,
+    normalizeAudio: true,
+    ffmpegPath: 'ffmpeg',
+    ffprobePath: 'ffprobe',
+    cache: null
+  }
 }
 ```
 

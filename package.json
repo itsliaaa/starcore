@@ -1,6 +1,6 @@
 {
    "name": "@itsliaaa/starcore",
-   "version": "0.0.0-alpha.33",
+   "version": "0.0.0-alpha.34",
    "description": "A Baileys wrapper for WhatsApp bot development with multi-session support, built-in stores, and more.",
    "main": "./lib/index.js",
    "exports": {
